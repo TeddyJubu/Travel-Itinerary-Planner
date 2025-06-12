@@ -18,7 +18,7 @@
 //     setResult(null);
 
 //     try {
-//       const response = await axios.post('http://localhost:8000/api/itinerary/', formData);
+//       const response = await axios.post('https://ai-travel-itinerary-planner.onrender.com/api/itinerary/', formData);
 //       setResult(response.data.result);
 //     } catch (err) {
 //       setError('Failed to generate itinerary. Please try again.');
@@ -118,7 +118,7 @@ const ItineraryForm: React.FC = () => {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/itinerary/', formData);
+      const response = await axios.post('https://ai-travel-itinerary-planner.onrender.com/api/itinerary/', formData);
       setResult(response.data.result);
     } catch (err) {
       setError('Failed to generate itinerary. Please try again.');
