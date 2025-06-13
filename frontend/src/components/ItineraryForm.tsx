@@ -1,108 +1,17 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { ItineraryRequest } from '../types';
-
-// const ItineraryForm: React.FC = () => {
-//   const [formData, setFormData] = useState<ItineraryRequest>({
-//     destination: '',
-//     days: 1,
-//   });
-//   const [loading, setLoading] = useState(false);
-//   const [result, setResult] = useState<string | null>(null);
-//   const [error, setError] = useState<string | null>(null);
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     setError(null);
-//     setResult(null);
-
-//     try {
-//       const response = await axios.post('https://ai-travel-itinerary-planner.onrender.com/api/itinerary/', formData);
-//       setResult(response.data.result);
-//     } catch (err) {
-//       setError('Failed to generate itinerary. Please try again.');
-//       console.error(err);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="max-w-2xl mx-auto">
-//       <div className="card mb-8">
-//         <h2 className="text-2xl font-bold text-primary mb-6">Create New Itinerary</h2>
-//         <form onSubmit={handleSubmit} className="space-y-6">
-//           <div>
-//             <label htmlFor="destination" className="block text-sm font-medium text-gray-300 mb-2">
-//               Destination
-//             </label>
-//             <input
-//               type="text"
-//               id="destination"
-//               className="input w-full"
-//               value={formData.destination}
-//               onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-//               required
-//               placeholder="Enter your destination"
-//             />
-//           </div>
-//           <div>
-//             <label htmlFor="days" className="block text-sm font-medium text-gray-300 mb-2">
-//               Number of Days
-//             </label>
-//             <input
-//               type="number"
-//               id="days"
-//               className="input w-full"
-//               value={formData.days}
-//               onChange={(e) => setFormData({ ...formData, days: parseInt(e.target.value) })}
-//               min="1"
-//               required
-//             />
-//           </div>
-//           <button
-//             type="submit"
-//             className="btn btn-primary w-full"
-//             disabled={loading}
-//           >
-//             {loading ? 'Generating...' : 'Generate Itinerary'}
-//           </button>
-//         </form>
-//       </div>
-
-//       {error && (
-//         <div className="card bg-red-900/20 border border-red-500 text-red-200 mb-8">
-//           {error}
-//         </div>
-//       )}
-
-//       {result && (
-//         <div className="card">
-//           <h3 className="text-xl font-semibold text-primary mb-4">Your Itinerary</h3>
-//           <div className="prose prose-invert max-w-none">
-//             {result.split('\n').map((line, index) => (
-//               <p key={index} className="mb-4">{line}</p>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ItineraryForm; 
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { ItineraryRequest } from '../types';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import ReactMarkdown from 'react-markdown';
+import { useAuth } from '../contexts/AuthContext';
 
 const ItineraryForm: React.FC = () => {
+  const { currentUser } = useAuth();
   const [formData, setFormData] = useState<ItineraryRequest>({
     destination: '',
     days: 1,
+    user_email: currentUser?.email || '',
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
@@ -113,12 +22,20 @@ const ItineraryForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentUser?.email) {
+      setError('You must be logged in to create an itinerary');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      const response = await axios.post('https://ai-travel-itinerary-planner.onrender.com/api/itinerary/', formData);
+      const response = await axios.post('https://ai-travel-itinerary-planner.onrender.com/api/itinerary/', {
+        ...formData,
+        user_email: currentUser.email
+      });
       setResult(response.data.result);
     } catch (err) {
       setError('Failed to generate itinerary. Please try again.');

@@ -20,6 +20,7 @@ class ItineraryView(APIView):
         if serializer.is_valid():
             destination = serializer.validated_data['destination']
             days = serializer.validated_data['days']
+            user_email = serializer.validated_data['user_email']
             
             # Call Groq API
             api_key = os.getenv('GROQ_API_KEY')
@@ -64,11 +65,12 @@ class ItineraryView(APIView):
                 
                 result = response.json()['choices'][0]['message']['content']
                 
-                # Save to DB
+                # Save to DB with user email
                 itinerary = Itinerary.objects.create(
                     destination=destination,
                     days=days,
-                    result=result
+                    result=result,
+                    user_email=user_email
                 )
                 return Response(ItinerarySerializer(itinerary).data, status=201)
                 
@@ -85,7 +87,11 @@ class ItineraryView(APIView):
 
 class HistoryView(APIView):
     def get(self, request):
-        itineraries = Itinerary.objects.all().order_by('-created_at')
+        user_email = request.query_params.get('user_email')
+        if not user_email:
+            return Response({'error': 'user_email is required'}, status=400)
+            
+        itineraries = Itinerary.objects.filter(user_email=user_email).order_by('-created_at')
         data = [
             {
                 'id': i.id,
@@ -93,6 +99,7 @@ class HistoryView(APIView):
                 'days': i.days,
                 'result': i.result,
                 'created_at': i.created_at,
+                'user_email': i.user_email,
             } for i in itineraries
         ]
         return Response(data)

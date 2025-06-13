@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Itinerary } from '../types';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useAuth } from '../contexts/AuthContext';
 
 const History: React.FC = () => {
+  const { currentUser } = useAuth();
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,11 +14,17 @@ const History: React.FC = () => {
   const [modalItinerary, setModalItinerary] = useState<Itinerary | null>(null);
 
   const fetchItineraries = async () => {
+    if (!currentUser?.email) {
+      setError('You must be logged in to view your history');
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
       console.log('Fetching itineraries...');
-      const response = await fetch('https://ai-travel-itinerary-planner.onrender.com/api/history/');
+      const response = await fetch(`https://ai-travel-itinerary-planner.onrender.com/api/history/?user_email=${encodeURIComponent(currentUser.email)}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch itineraries: ${response.status} ${response.statusText}`);
       }
@@ -36,7 +44,7 @@ const History: React.FC = () => {
 
   useEffect(() => {
     fetchItineraries();
-  }, []);
+  }, [currentUser]);
 
   // Add a retry mechanism
   const retryFetch = () => {
