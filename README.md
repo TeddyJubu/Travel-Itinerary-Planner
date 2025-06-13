@@ -54,53 +54,78 @@ A web application that generates personalized travel itineraries using AI and ma
 ```mermaid
 graph TD
     subgraph Frontend
-        UI[React UI]
-        Auth[Auth Context]
-        API[API Client]
-        UI --> Auth
-        UI --> API
+        A[React Application] --> B[Components]
+        A --> C[Context Providers]
+        A --> D[Custom Hooks]
+        
+        B -->|uses| E[UI Library]
+        C --> F[Auth Context]
+        C --> G[App Context]
+        D --> H[API Hooks]
+        
+        H --> I[Axios Client]
+        I --> J[Backend API]
     end
 
     subgraph Backend
-        DRF[Django REST Framework]
-        AuthService[JWT Auth Service]
-        GroQ[GroQ AI Service]
-        DB[(SQL Lite)]
+        K[Django REST Framework] --> L[Authentication]
+        K --> M[Itinerary Service]
+        K --> N[AI Integration]
         
-        DRF --> AuthService
-        DRF --> Groq
-        DRF --> DB
+        L --> O[JWT Auth]
+        M --> P[CRUD Operations]
+        N --> Q[Groq AI API]
+        
+        P --> R[(Database)]
+        O --> R
     end
 
-    subgraph External
-        Groq AI[Groq API]
+    subgraph External Services
+        Q --> S[Groq Cloud]
     end
 
-    API --> DRF
-    GroQ --> Groq AI
+    J --> K
 ```
 
 ## Database Schema
 
 ```mermaid
 erDiagram
-    User {
-        int id PK
-        string email
-        string password
-        datetime created_at
+    USER ||--o{ ITINERARY : creates
+    USER {
+        int id PK "Primary Key"
+        string email "Unique, Indexed"
+        string password_hash "Encrypted"
+        string first_name
+        string last_name
+        datetime created_at "Default: now()"
+        datetime updated_at "On update"
+        boolean is_active "Default: true"
     }
     
-    Itinerary {
-        int id PK
-        int user_id FK
-        string destination
-        int days
-        text result
-        datetime created_at
+    ITINERARY {
+        int id PK "Primary Key"
+        int user_id FK "References USER(id)"
+        string title "Required"
+        string destination "Required"
+        date start_date
+        date end_date
+        int duration_days "Calculated field"
+        text preferences "JSON"
+        text itinerary_data "JSON"
+        enum status "DRAFT, FINALIZED, ARCHIVED"
+        datetime created_at "Default: now()"
+        datetime updated_at "On update"
     }
     
-    User ||--o{ Itinerary : "creates"
+    USER_SETTINGS {
+        int user_id PK,FK "References USER(id)"
+        string language "Default: en"
+        string theme "Default: light"
+        text notification_prefs "JSON"
+    }
+    
+    USER ||--|| USER_SETTINGS : has
 ```
 
 ## Setup Instructions
