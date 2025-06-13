@@ -24,7 +24,7 @@ const History: React.FC = () => {
       setLoading(true);
       setError(null);
       console.log('Fetching itineraries...');
-      const response = await fetch(`https://ai-travel-itinerary-planner.onrender.com/api/history/?user_email=${encodeURIComponent(currentUser.email)}`);
+      const response = await fetch(`http://localhost:8000/api/history/?user_email=${encodeURIComponent(currentUser.email)}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch itineraries: ${response.status} ${response.statusText}`);
       }
@@ -95,30 +95,9 @@ const History: React.FC = () => {
       const daySections = text.split(/\*\*Day (\d+):/);
       const days: any[] = [];
       
-      // Process sections in pairs: [empty, dayNumber, content, dayNumber, content, ...]
-      for (let i = 1; i < daySections.length; i += 2) {
-        const dayNumber = parseInt(daySections[i]);
-        const section = daySections[i + 1];
-        
-        if (!section || !section.trim()) continue;
-        
-        // Split the section into lines and filter out empty lines
-        const lines = section.split('\n').filter(line => line.trim());
-        
-        // Extract day description (text before the first activity)
-        const descriptionLines = lines.filter(line => 
-          !line.includes('AM') && 
-          !line.includes('PM') && 
-          !line.trim().startsWith('*') &&
-          !line.includes('Cost:') &&
-          !line.includes('Transportation:') &&
-          !line.includes('Estimated Costs:') &&
-          !line.includes('Local Customs:') &&
-          !line.includes('Safety Tips:')
-        );
-        const description = descriptionLines.join('\n').trim();
-        
-        // Extract activities
+      // If no day sections found, try to parse as a single day
+      if (daySections.length === 1) {
+        const lines = text.split('\n').filter(line => line.trim());
         const activities = lines
           .filter(line => {
             const trimmedLine = line.trim();
@@ -150,12 +129,88 @@ const History: React.FC = () => {
             };
           })
           .filter(activity => activity.description && activity.description.length > 0);
-        
+
+        // Get description (text before first activity)
+        const descriptionLines = lines.filter(line => 
+          !line.includes('AM') && 
+          !line.includes('PM') && 
+          !line.trim().startsWith('*') &&
+          !line.includes('Cost:') &&
+          !line.includes('Transportation:') &&
+          !line.includes('Estimated Costs:') &&
+          !line.includes('Local Customs:') &&
+          !line.includes('Safety Tips:')
+        );
+        const description = descriptionLines.join('\n').trim();
+
         days.push({
-          day: dayNumber,
+          day: 1,
           description,
           activities
         });
+      } else {
+        // Process sections in pairs: [empty, dayNumber, content, dayNumber, content, ...]
+        for (let i = 1; i < daySections.length; i += 2) {
+          const dayNumber = parseInt(daySections[i]);
+          const section = daySections[i + 1];
+          
+          if (!section || !section.trim()) continue;
+          
+          // Split the section into lines and filter out empty lines
+          const lines = section.split('\n').filter(line => line.trim());
+          
+          // Extract day description (text before the first activity)
+          const descriptionLines = lines.filter(line => 
+            !line.includes('AM') && 
+            !line.includes('PM') && 
+            !line.trim().startsWith('*') &&
+            !line.includes('Cost:') &&
+            !line.includes('Transportation:') &&
+            !line.includes('Estimated Costs:') &&
+            !line.includes('Local Customs:') &&
+            !line.includes('Safety Tips:')
+          );
+          const description = descriptionLines.join('\n').trim();
+          
+          // Extract activities
+          const activities = lines
+            .filter(line => {
+              const trimmedLine = line.trim();
+              return (
+                (trimmedLine.includes('AM') || trimmedLine.includes('PM')) ||
+                (trimmedLine.startsWith('*') && !trimmedLine.includes('Cost:') && !trimmedLine.includes('Transportation:'))
+              );
+            })
+            .map(line => {
+              const timeMatch = line.match(/(\d{1,2}:\d{2} (?:AM|PM)(?:\s*-\s*\d{1,2}:\d{2} (?:AM|PM))?)/);
+              const time = timeMatch ? timeMatch[1] : '';
+              
+              // Extract description and cost
+              let description = line.replace(time, '').trim();
+              const costMatch = description.match(/Cost: ₹([\d,]+)/);
+              const cost = costMatch ? `₹${costMatch[1]}` : null;
+              
+              // Clean up description
+              description = description
+                .replace(/Cost: ₹[\d,]+/, '')
+                .replace(/^\*+\s*/, '')
+                .replace(/^-+\s*/, '')
+                .trim();
+              
+              return {
+                time,
+                description,
+                cost
+              };
+            })
+            .filter(activity => activity.description && activity.description.length > 0);
+          
+          days.push({
+            day: dayNumber,
+            description,
+            activities
+          });
+        }
       }
       
       return days;

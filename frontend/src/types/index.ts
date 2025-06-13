@@ -9,4 +9,5 @@ export interface Itinerary {
 export interface ItineraryRequest {
   destination: string;
   days: number;
+  user_email: string;
 } 

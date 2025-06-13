@@ -26,13 +26,13 @@ const ItineraryForm: React.FC = () => {
       setError('You must be logged in to create an itinerary');
       return;
     }
-
+    
     setLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      const response = await axios.post('https://ai-travel-itinerary-planner.onrender.com/api/itinerary/', {
+      const response = await axios.post('http://localhost:8000/api/itinerary/', {
         ...formData,
         user_email: currentUser.email
       });
