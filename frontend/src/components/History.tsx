@@ -24,7 +24,7 @@ const History: React.FC = () => {
       setLoading(true);
       setError(null);
       console.log('Fetching itineraries...');
-      const response = await fetch(`http://localhost:8000/api/history/?user_email=${encodeURIComponent(currentUser.email)}`);
+      const response = await fetch(`https://ai-travel-itinerary-planner.onrender.com/api/history/?user_email=${encodeURIComponent(currentUser.email)}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch itineraries: ${response.status} ${response.statusText}`);
       }
