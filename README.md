@@ -68,16 +68,16 @@ graph TD
         DB[(SQL Lite)]
         
         DRF --> AuthService
-        DRF --> GroQ
+        DRF --> Groq
         DRF --> DB
     end
 
     subgraph External
-        GroQAI[GroQ API]
+        Groq AI[Groq API]
     end
 
     API --> DRF
-    GroQ --> AI
+    GroQ --> Groq AI
 ```
 
 ## Database Schema
