@@ -2,24 +2,6 @@
 
 A web application that generates personalized travel itineraries using AI and maintains a history of past requests. The application provides detailed day-by-day plans with activities, timings, and cost estimates.
 
-## Tech Stack
-
-### Frontend 
-- React.js with TypeScript
-- TailwindCSS for styling
-- Axios for API calls
-- React Router for navigation
-- React Markdown for rich text rendering
-- React Icons for UI elements
-
-### Backend
-- Django (Python)
-- Django REST Framework
-- MariaDB database
-- GROQ AI API for itinerary generation
-- JWT Authentication
-- CORS support
-
 ## Features
 - **Smart Itinerary Generation**
   - Input destination and number of days
@@ -28,6 +10,7 @@ A web application that generates personalized travel itineraries using AI and ma
   - Cost estimates for activities
   - Transportation recommendations
   - Local customs and safety tips
+  - Docker containerization
 
 - **User Management**
   - User registration and authentication
@@ -48,6 +31,30 @@ A web application that generates personalized travel itineraries using AI and ma
   - Loading states and animations
   - Error handling and notifications
   - Clean and intuitive navigation
+
+## Tech Stack
+
+### Frontend 
+- React.js with TypeScript
+- TailwindCSS for styling
+- Axios for API calls
+- React Router for navigation
+- React Markdown for rich text rendering
+- React Icons for UI elements
+
+### Backend
+- Django (Python)
+- Django REST Framework
+- GROQ AI API for itinerary generation
+- JWT Authentication
+- CORS support
+- SQL LITE
+
+### Infrastructure
+- Docker
+- Docker Compose
+- Nginx (Production)
+- Gunicorn
 
 ## Architecture
 
@@ -127,7 +134,35 @@ erDiagram
     
     USER ||--|| USER_SETTINGS : has
 ```
+### Docker Architecture
+```mermaid
+graph TB
+    subgraph Docker Containers
+        subgraph Frontend Container
+            React[React App]
+            Node[Node.js]
+        end
 
+        subgraph Backend Container
+            Django[Django]
+            Gunicorn[Gunicorn]
+        end
+
+        subgraph Database Container
+            Postgres[PostgreSQL]
+        end
+    end
+
+    subgraph Network
+        Frontend_Network[Frontend Network]
+        Backend_Network[Backend Network]
+    end
+
+    React --> Node
+    Django --> Gunicorn
+    Gunicorn --> Postgres
+    Frontend_Network --> Backend_Network
+```
 ## Setup Instructions
 
 ### Prerequisites
@@ -186,6 +221,35 @@ VITE_FIREBASE_MEASUREMENT_ID=xxx
 npm start
 ```
 
+### Docker Deployment
+
+1. Build and start the containers:
+```bash
+docker compose up --build
+```
+
+2. Access the application:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- Database: localhost:5432
+
+3. Stop the containers:
+```bash
+docker compose down
+```
+
+### Environment Variables
+
+Create a `.env` file in the backend directory with:
+```
+VITE_FIREBASE_API_KEY=xxx
+VITE_FIREBASE_AUTH_DOMAIN=xxx
+VITE_FIREBASE_PROJECT_ID=xxx
+VITE_FIREBASE_STORAGE_BUCKET=xxx
+VITE_FIREBASE_MESSAGING_SENDER_ID=xxx
+VITE_FIREBASE_APP_ID=xxx
+VITE_FIREBASE_MEASUREMENT_ID=xxx
+```
 ## API Documentation
 
 ### Authentication Endpoints
@@ -218,6 +282,11 @@ Latency: Typically < 1ms per token
 Usage Tier: Free-tier (or as configured)
 
 Docs: https://console.groq.com/keys
+
+## Authentication
+Official Firebase Auth Documentation
+Firebase Authentication Overview
+https://firebase.google.com/products/auth
 
 ## Project Structure
 ```
