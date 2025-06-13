@@ -4,7 +4,7 @@ A web application that generates personalized travel itineraries using AI and ma
 
 ## Tech Stack
 
-### Frontend
+### Frontend 
 - React.js
 - TailwindCSS for styling
 - Axios for API calls
