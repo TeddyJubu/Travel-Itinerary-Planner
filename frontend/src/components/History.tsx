@@ -3,6 +3,7 @@ import { Itinerary } from '../types';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useAuth } from '../contexts/AuthContext';
+import ReactMarkdown from 'react-markdown';
 
 const History: React.FC = () => {
   const { currentUser } = useAuth();
@@ -98,6 +99,15 @@ const History: React.FC = () => {
       // If no day sections found, try to parse as a single day
       if (daySections.length === 1) {
         const lines = text.split('\n').filter(line => line.trim());
+        
+        // Extract and format the heading
+        let heading = '';
+        const headingIndex = lines.findIndex(line => line.includes('**'));
+        if (headingIndex !== -1) {
+          heading = lines[headingIndex].replace(/\*\*/g, '').trim();
+          lines.splice(headingIndex, 1); // Remove the heading line
+        }
+        
         const activities = lines
           .filter(line => {
             const trimmedLine = line.trim();
@@ -115,11 +125,9 @@ const History: React.FC = () => {
             const costMatch = description.match(/Cost: ₹([\d,]+)/);
             const cost = costMatch ? `₹${costMatch[1]}` : null;
             
-            // Clean up description
+            // Clean up description but preserve markdown
             description = description
               .replace(/Cost: ₹[\d,]+/, '')
-              .replace(/^\*+\s*/, '')
-              .replace(/^-+\s*/, '')
               .trim();
             
             return {
@@ -145,6 +153,7 @@ const History: React.FC = () => {
 
         days.push({
           day: 1,
+          heading,
           description,
           activities
         });
@@ -158,6 +167,14 @@ const History: React.FC = () => {
           
           // Split the section into lines and filter out empty lines
           const lines = section.split('\n').filter(line => line.trim());
+          
+          // Extract and format the heading
+          let heading = '';
+          const headingIndex = lines.findIndex(line => line.includes('**'));
+          if (headingIndex !== -1) {
+            heading = lines[headingIndex].replace(/\*\*/g, '').trim();
+            lines.splice(headingIndex, 1); // Remove the heading line
+          }
           
           // Extract day description (text before the first activity)
           const descriptionLines = lines.filter(line => 
@@ -190,11 +207,9 @@ const History: React.FC = () => {
               const costMatch = description.match(/Cost: ₹([\d,]+)/);
               const cost = costMatch ? `₹${costMatch[1]}` : null;
               
-              // Clean up description
+              // Clean up description but preserve markdown
               description = description
                 .replace(/Cost: ₹[\d,]+/, '')
-                .replace(/^\*+\s*/, '')
-                .replace(/^-+\s*/, '')
                 .trim();
               
               return {
@@ -207,6 +222,7 @@ const History: React.FC = () => {
           
           days.push({
             day: dayNumber,
+            heading,
             description,
             activities
           });
@@ -341,9 +357,54 @@ const History: React.FC = () => {
                 </h3>
               </div>
               
+              {day.heading && (
+                <h2 className="text-2xl font-bold text-white mb-4">{day.heading}</h2>
+              )}
+              
               {day.description && (
                 <div className="mb-4 p-3 bg-dark-light/30 rounded-lg">
-                  <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{day.description}</p>
+                  <ReactMarkdown
+                    components={{
+                      p: ({ node, ...props }) => (
+                        <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{props.children}</p>
+                      ),
+                      ul: ({ node, ...props }) => (
+                        <ul className="list-disc list-inside space-y-2 text-gray-300">{props.children}</ul>
+                      ),
+                      li: ({ node, ...props }) => (
+                        <li className="text-gray-300">{props.children}</li>
+                      ),
+                      strong: ({ node, ...props }) => (
+                        <strong className="text-white font-semibold">{props.children}</strong>
+                      ),
+                      em: ({ node, ...props }) => (
+                        <em className="text-gray-300 italic">{props.children}</em>
+                      ),
+                      h1: ({ node, ...props }) => (
+                        <h1 className="text-2xl font-bold text-white mb-4">{props.children}</h1>
+                      ),
+                      h2: ({ node, ...props }) => (
+                        <h2 className="text-xl font-bold text-white mb-3">{props.children}</h2>
+                      ),
+                      h3: ({ node, ...props }) => (
+                        <h3 className="text-lg font-bold text-white mb-2">{props.children}</h3>
+                      ),
+                      h4: ({ node, ...props }) => (
+                        <h4 className="text-base font-bold text-white mb-2">{props.children}</h4>
+                      ),
+                      blockquote: ({ node, ...props }) => (
+                        <blockquote className="border-l-4 border-primary pl-4 italic text-gray-300 my-4">{props.children}</blockquote>
+                      ),
+                      code: ({ node, ...props }) => (
+                        <code className="bg-dark-light px-2 py-1 rounded text-primary font-mono text-sm">{props.children}</code>
+                      ),
+                      pre: ({ node, ...props }) => (
+                        <pre className="bg-dark-light p-4 rounded-lg overflow-x-auto my-4">{props.children}</pre>
+                      )
+                    }}
+                  >
+                    {day.description}
+                  </ReactMarkdown>
                 </div>
               )}
               
@@ -360,7 +421,48 @@ const History: React.FC = () => {
                           </div>
                         )}
                         <div className="flex-grow">
-                          <p className="text-gray-200 leading-relaxed whitespace-pre-wrap">{activity.description}</p>
+                          <ReactMarkdown
+                            components={{
+                              p: ({ node, ...props }) => (
+                                <p className="text-gray-200 leading-relaxed whitespace-pre-wrap">{props.children}</p>
+                              ),
+                              ul: ({ node, ...props }) => (
+                                <ul className="list-disc list-inside space-y-2 text-gray-200">{props.children}</ul>
+                              ),
+                              li: ({ node, ...props }) => (
+                                <li className="text-gray-200">{props.children}</li>
+                              ),
+                              strong: ({ node, ...props }) => (
+                                <strong className="text-white font-semibold">{props.children}</strong>
+                              ),
+                              em: ({ node, ...props }) => (
+                                <em className="text-gray-200 italic">{props.children}</em>
+                              ),
+                              h1: ({ node, ...props }) => (
+                                <h1 className="text-2xl font-bold text-white mb-4">{props.children}</h1>
+                              ),
+                              h2: ({ node, ...props }) => (
+                                <h2 className="text-xl font-bold text-white mb-3">{props.children}</h2>
+                              ),
+                              h3: ({ node, ...props }) => (
+                                <h3 className="text-lg font-bold text-white mb-2">{props.children}</h3>
+                              ),
+                              h4: ({ node, ...props }) => (
+                                <h4 className="text-base font-bold text-white mb-2">{props.children}</h4>
+                              ),
+                              blockquote: ({ node, ...props }) => (
+                                <blockquote className="border-l-4 border-primary pl-4 italic text-gray-300 my-4">{props.children}</blockquote>
+                              ),
+                              code: ({ node, ...props }) => (
+                                <code className="bg-dark-light px-2 py-1 rounded text-primary font-mono text-sm">{props.children}</code>
+                              ),
+                              pre: ({ node, ...props }) => (
+                                <pre className="bg-dark-light p-4 rounded-lg overflow-x-auto my-4">{props.children}</pre>
+                              )
+                            }}
+                          >
+                            {activity.description}
+                          </ReactMarkdown>
                           {activity.cost && (
                             <div className="mt-2 flex items-center">
                               <svg className="h-4 w-4 text-green-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -374,26 +476,13 @@ const History: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-4 text-gray-400">
-                    <svg className="h-8 w-8 mx-auto mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                    No detailed activities available
-                  </div>
+                  <div className="text-gray-400 text-center py-4">No activities planned for this day</div>
                 )}
               </div>
             </div>
           ))
         ) : (
-          <div className="text-center py-8">
-            <div className="w-16 h-16 mx-auto mb-4 bg-gray-700/50 rounded-full flex items-center justify-center">
-              <svg className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <p className="text-gray-400 text-lg">No detailed itinerary available</p>
-            <p className="text-gray-500 text-sm mt-1">The itinerary details might not have been saved properly</p>
-          </div>
+          <div className="text-gray-400 text-center py-8">No detailed itinerary available</div>
         )}
       </div>
     );
