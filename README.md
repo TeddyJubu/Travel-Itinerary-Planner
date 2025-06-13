@@ -16,7 +16,7 @@ A web application that generates personalized travel itineraries using AI and ma
 - Django (Python)
 - Django REST Framework
 - MariaDB database
-- Google Gemini 1.5 API for itinerary generation
+- GROQ AI API for itinerary generation
 - JWT Authentication
 - CORS support
 
@@ -64,20 +64,20 @@ graph TD
     subgraph Backend
         DRF[Django REST Framework]
         AuthService[JWT Auth Service]
-        Gemini[Gemini AI Service]
-        DB[(MariaDB)]
+        GroQ[GroQ AI Service]
+        DB[(SQL Lite)]
         
         DRF --> AuthService
-        DRF --> Gemini
+        DRF --> GroQ
         DRF --> DB
     end
 
     subgraph External
-        GoogleAI[Google Gemini API]
+        GroQAI[GroQ API]
     end
 
     API --> DRF
-    Gemini --> GoogleAI
+    GroQ --> AI
 ```
 
 ## Database Schema
@@ -109,8 +109,7 @@ erDiagram
 - Python 3.8+
 - Node.js 14+
 - npm or yarn
-- Google AI Studio API key
-- MariaDB server
+- GROQ AI API key
 
 ### Backend Setup
 1. Create a virtual environment:
@@ -125,24 +124,12 @@ cd backend
 pip install -r requirements.txt
 ```
 
-3. Set up environment variables:
-Create a `.env` file in the backend directory with:
-```
-GOOGLE_API_KEY=your_api_key_here
-DB_NAME=your_db_name
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_HOST=localhost
-DB_PORT=3306
-SECRET_KEY=your_django_secret_key
-```
-
-4. Run migrations:
+3. Run migrations:
 ```bash
 python manage.py migrate
 ```
 
-5. Start the server:
+4. Start the server:
 ```bash
 python manage.py runserver
 ```
@@ -152,6 +139,21 @@ python manage.py runserver
 ```bash
 cd frontend
 npm install
+```
+2. Add ENV
+```
+# GROQ API Key
+GROQ_API_KEY=xxx
+
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=xxx
+VITE_FIREBASE_AUTH_DOMAIN=xxx
+VITE_FIREBASE_PROJECT_ID=xxx
+VITE_FIREBASE_STORAGE_BUCKET=xxx
+VITE_FIREBASE_MESSAGING_SENDER_ID=xxx
+VITE_FIREBASE_APP_ID=xxx
+VITE_FIREBASE_MEASUREMENT_ID=xxx
+
 ```
 
 2. Start the development server:
@@ -180,9 +182,17 @@ npm start
   - Returns list of past itinerary requests
 
 ## LLM Integration
-This project uses Google's Gemini 1.5 API for generating travel itineraries. The API is accessed through Google AI Studio's free tier.
+This project uses Groq AI to provide ultra-fast inference for Large Language Models (LLMs), delivering sub-second latency for user queries. Groq runs LLMs like Meta's LLaMA 3 and Mistral on its custom-built Language Processing Units (LPUs), optimized specifically for AI workloads.
 
-[Google AI Studio Documentation](https://ai.google.dev/docs/gemini_api_overview)
+Groq's API is ideal for high-performance applications where speed is critical — such as generating instant responses in travel itinerary planning. It is accessed using a simple REST API and supports a streaming mode for real-time output.
+
+Models used: Mixtral 8x7B, LLaMA 3
+
+Latency: Typically < 1ms per token
+
+Usage Tier: Free-tier (or as configured)
+
+Docs: https://console.groq.com/keys
 
 ## Project Structure
 ```
@@ -208,13 +218,3 @@ ai-travel-itinerary-planner/
 │   └── package.json
 └── README.md
 ```
-
-## Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details. 
