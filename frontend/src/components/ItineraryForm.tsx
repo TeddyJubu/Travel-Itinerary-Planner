@@ -52,7 +52,18 @@ const ItineraryForm: React.FC = () => {
     try {
       const canvas = await html2canvas(resultRef.current, {
         scale: 2,
-        backgroundColor: '#1a202c'
+        backgroundColor: '#1a202c',
+        logging: false,
+        useCORS: true,
+        allowTaint: true,
+        onclone: (clonedDoc) => {
+          // Ensure text colors are preserved
+          const elements = clonedDoc.getElementsByClassName('prose');
+          for (let i = 0; i < elements.length; i++) {
+            const element = elements[i] as HTMLElement;
+            element.style.color = '#ffffff';
+          }
+        }
       });
       
       const imgData = canvas.toDataURL('image/png');
