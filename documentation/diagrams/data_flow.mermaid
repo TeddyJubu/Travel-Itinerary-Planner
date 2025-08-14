@@ -1,0 +1,92 @@
+sequenceDiagram
+    participant User as 👤 User
+    participant UI as 🖥️ React Frontend
+    participant Auth as 🔐 Firebase Auth
+    participant API as 🔌 Django API
+    participant AI as 🤖 GROQ AI
+    participant DB as 🗄️ Database
+    participant PDF as 📄 PDF Generator
+
+    %% Authentication Flow
+    Note over User,Auth: Authentication Process
+    User->>UI: Access Application
+    UI->>Auth: Check Auth Status
+    Auth-->>UI: User Status
+    
+    alt User Not Authenticated
+        UI->>User: Show Login/Signup
+        User->>UI: Enter Credentials
+        UI->>Auth: Login/Signup Request
+        Auth-->>UI: Auth Token + User Info
+        UI->>UI: Store User Context
+    end
+
+    %% Itinerary Generation Flow
+    Note over User,DB: Itinerary Creation Process
+    User->>UI: Fill Itinerary Form
+    Note right of User: Destination, Days, Email
+    
+    UI->>UI: Validate Form Data
+    UI->>API: POST /api/itinerary/
+    Note right of UI: {destination, days, user_email}
+    
+    API->>API: Validate Request Data
+    API->>AI: Generate Itinerary Request
+    Note right of API: Prompt: "Create travel itinerary for {destination} for {days} days"
+    
+    AI-->>API: AI Generated Itinerary
+    Note left of AI: Structured travel plan
+    
+    API->>DB: Save Itinerary
+    Note right of API: Store with user_email, timestamp
+    
+    DB-->>API: Confirmation
+    API-->>UI: Itinerary Response
+    Note left of API: {id, destination, days, result, created_at}
+    
+    UI->>UI: Display Itinerary
+    UI->>User: Show Generated Plan
+
+    %% PDF Export Flow
+    Note over User,PDF: PDF Export Process
+    User->>UI: Click Export PDF
+    UI->>PDF: html2canvas(itinerary)
+    PDF-->>UI: Canvas Image
+    UI->>PDF: jsPDF.addImage()
+    PDF-->>UI: PDF Blob
+    UI->>User: Download PDF
+
+    %% History Retrieval Flow
+    Note over User,DB: History Access Process
+    User->>UI: Navigate to History
+    UI->>API: GET /api/history/?user_email={email}
+    API->>DB: Query Itineraries by Email
+    DB-->>API: User's Itineraries
+    API-->>UI: Itinerary List
+    UI->>User: Display History
+
+    %% Error Handling
+    Note over UI,AI: Error Scenarios
+    alt API Error
+        API-->>UI: Error Response
+        UI->>User: Show Error Message
+    end
+    
+    alt AI Service Error
+        AI-->>API: Service Unavailable
+        API-->>UI: AI Error Response
+        UI->>User: "AI service temporarily unavailable"
+    end
+    
+    alt Authentication Error
+        Auth-->>UI: Auth Failed
+        UI->>User: Redirect to Login
+    end
+
+    %% Data Persistence Notes
+    Note over DB: Data Storage
+    Note right of DB: • Itineraries stored with user email<br/>• No user table relationship<br/>• SQLite (dev) / PostgreSQL (prod)<br/>• Auto-timestamps for created_at
+
+    %% Security Notes
+    Note over Auth,API: Security Considerations
+    Note right of Auth: • Firebase handles auth tokens<br/>• Backend doesn't validate tokens<br/>• Client-side auth only<br/>• CORS configured for specific origins

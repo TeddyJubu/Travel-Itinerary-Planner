@@ -184,3 +184,17 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/react,django
+
+# Added by auto-fixer
+firebase-service-account.json
+.env.local
+.env.production
+logs/
+*.sqlite3
+*.pyo
+node_modules/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

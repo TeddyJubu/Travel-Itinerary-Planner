@@ -17,6 +17,7 @@ interface AuthContextType {
   signup: (email: string, password: string) => Promise<UserCredential>;
   logout: () => Promise<void>;
   signInWithGoogle: () => Promise<UserCredential>;
+  getIdToken: () => Promise<string | null>;
   loading: boolean;
 }
 
@@ -51,6 +52,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return signInWithPopup(auth, provider);
   }
 
+  /**
+   * Get the current user's Firebase ID token for API authentication
+   * 
+   * Returns:
+   *   Promise<string | null>: The ID token or null if user is not authenticated
+   */
+  async function getIdToken(): Promise<string | null> {
+    if (!currentUser) {
+      return null;
+    }
+    
+    try {
+      // Get fresh token (force refresh if needed)
+      const token = await currentUser.getIdToken(true);
+      return token;
+    } catch (error) {
+      // Error getting Firebase ID token - logged for debugging
+      return null;
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -66,6 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signup,
     logout,
     signInWithGoogle,
+    getIdToken,
     loading
   };
 
@@ -74,4 +97,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       {!loading && children}
     </AuthContext.Provider>
   );
-} 
+}

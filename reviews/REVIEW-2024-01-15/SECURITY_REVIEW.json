@@ -1,0 +1,103 @@
+{
+  "vulnerabilities": [
+    {
+      "severity": "critical",
+      "type": "authentication_bypass",
+      "file": "backend/travel_app/views.py",
+      "line": 22,
+      "vulnerable_code": "user_email = serializer.validated_data['user_email']",
+      "issue": "Backend accepts any user_email without validating Firebase tokens",
+      "fix": "Implement Firebase token verification middleware",
+      "cwe": "CWE-287",
+      "example_fix": "from firebase_admin import auth\n\ndef verify_firebase_token(request):\n    token = request.headers.get('Authorization', '').replace('Bearer ', '')\n    try:\n        decoded_token = auth.verify_id_token(token)\n        return decoded_token['email']\n    except Exception:\n        raise PermissionDenied('Invalid token')"
+    },
+    {
+      "severity": "high",
+      "type": "host_header_injection",
+      "file": "backend/travel_planner/settings.py",
+      "line": 119,
+      "vulnerable_code": "ALLOWED_HOSTS = ['*']",
+      "issue": "Overly permissive host configuration allows any domain",
+      "fix": "Specify exact allowed hosts for production",
+      "cwe": "CWE-20",
+      "example_fix": "ALLOWED_HOSTS = [\n    'ai-travel-itinerary-planner.onrender.com',\n    'localhost',\n    '127.0.0.1'\n]"
+    },
+    {
+      "severity": "high",
+      "type": "prompt_injection",
+      "file": "backend/travel_app/views.py",
+      "line": 32,
+      "vulnerable_code": "prompt = f\"Create a detailed {days}-day itinerary for {destination}.\"",
+      "issue": "User input directly passed to AI without sanitization",
+      "fix": "Sanitize and validate user input before AI prompt",
+      "cwe": "CWE-20",
+      "example_fix": "import re\n\ndef sanitize_input(text):\n    # Remove potential prompt injection patterns\n    text = re.sub(r'[\\n\\r\\t]', ' ', text)\n    text = re.sub(r'[^a-zA-Z0-9\\s,.-]', '', text)\n    return text[:100]  # Limit length"
+    },
+    {
+      "severity": "medium",
+      "type": "information_disclosure",
+      "file": "backend/travel_app/views.py",
+      "line": 67,
+      "vulnerable_code": "print(f\"Error calling Groq API: {str(e)}\")",
+      "issue": "Sensitive error information logged to console",
+      "fix": "Use proper logging with appropriate levels",
+      "cwe": "CWE-532",
+      "example_fix": "import logging\nlogger = logging.getLogger(__name__)\nlogger.error('GROQ API error', exc_info=True)"
+    },
+    {
+      "severity": "medium",
+      "type": "missing_rate_limiting",
+      "file": "backend/travel_app/views.py",
+      "line": 17,
+      "vulnerable_code": "class ItineraryView(APIView):",
+      "issue": "No rate limiting on expensive AI API calls",
+      "fix": "Implement rate limiting middleware",
+      "cwe": "CWE-770",
+      "example_fix": "from django_ratelimit.decorators import ratelimit\n\n@ratelimit(key='user', rate='5/m', method='POST')\ndef post(self, request):"
+    }
+  ],
+  "secrets_detected": [
+    {
+      "file": "frontend/src/components/ItineraryForm.tsx",
+      "line": 33,
+      "type": "hardcoded_url",
+      "recommendation": "Move API URL to environment variables",
+      "code": "'https://ai-travel-itinerary-planner.onrender.com/api/itinerary/'"
+    }
+  ],
+  "dependency_vulnerabilities": {
+    "high": 0,
+    "medium": 2,
+    "low": 5,
+    "packages_to_update": [
+      "requests@2.31.0 (update to 2.32.0+)",
+      "django@4.2.23 (check for latest security patches)"
+    ]
+  },
+  "security_recommendations": [
+    {
+      "priority": "critical",
+      "title": "Implement Backend Authentication",
+      "description": "Add Firebase Admin SDK to verify tokens on backend",
+      "implementation": "pip install firebase-admin && create middleware"
+    },
+    {
+      "priority": "high",
+      "title": "Add Rate Limiting",
+      "description": "Implement django-ratelimit for API endpoints",
+      "implementation": "pip install django-ratelimit"
+    },
+    {
+      "priority": "high",
+      "title": "Input Sanitization",
+      "description": "Validate and sanitize all user inputs",
+      "implementation": "Create validation utilities and apply to serializers"
+    },
+    {
+      "priority": "medium",
+      "title": "Proper Logging",
+      "description": "Replace print statements with structured logging",
+      "implementation": "Configure Django logging settings"
+    }
+  ]
+}

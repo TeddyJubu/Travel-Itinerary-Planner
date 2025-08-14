@@ -1,0 +1,207 @@
+{
+  "meta": {
+    "project": "AI Travel Itinerary Planner",
+    "date": "2025-08-14",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "AI Travel Itinerary Planner is a full-stack web application that enables users to generate personalized day-by-day travel itineraries using AI-driven technology. It offers user authentication, itinerary history management, interactive map visualization, and supports exporting itineraries to PDF files, ensuring a seamless and engaging travel planning experience.",
+  "core_goals": [
+    "Provide users with personalized, AI-generated travel itineraries based on destination and trip duration.",
+    "Enable secure user authentication via Firebase with email/password and Google OAuth support.",
+    "Allow users to save, retrieve, and manage their itinerary history conveniently.",
+    "Offer downloadable PDF export capability of generated itineraries for offline access.",
+    "Integrate an interactive map visualization for travel destinations and routes.",
+    "Ensure a responsive and user-friendly interface with support for dark theme.",
+    "Maintain secure and scalable backend services with Django REST Framework and PostgreSQL.",
+    "Containerize the application using Docker for consistent multi-environment deployments."
+  ],
+  "key_features": [
+    "Firebase-based authentication system supporting email/password and Google OAuth login.",
+    "AI itinerary generation leveraging the GROQ API and OpenAI GPT models for personalized travel plans.",
+    "User-specific itinerary storage and retrieval with CRUD operations exposed via REST API.",
+    "PDF export functionality using HTML2Canvas and jsPDF for itinerary sharing or printing.",
+    "Interactive map integration using Leaflet for displaying travel destinations and routes.",
+    "Responsive React TypeScript frontend with TailwindCSS styling and dark mode support.",
+    "Client-side routing with React Router including protected routes for authenticated users.",
+    "Multi-environment database configuration using PostgreSQL for production and SQLite for development.",
+    "Comprehensive state management with React Context for authentication and component states for itinerary data.",
+    "Docker container orchestration for frontend, backend, and database services ensuring simplified deployment."
+  ],
+  "user_flow_summary": [
+    "User signs up or logs in using Firebase authentication via email/password or Google OAuth.",
+    "Upon authentication, user accesses the itinerary generation form and submits destination and trip duration input.",
+    "Frontend verifies authentication and sends a POST request to the Django backend API including user email and travel details.",
+    "Backend processes the request, invokes the GROQ AI API to generate a detailed travel itinerary, and saves the itinerary tied to the user email in the database.",
+    "Backend responds with the generated itinerary data which frontend displays to the user.",
+    "User can view their previously generated itineraries in the history section, fetched from the backend via user email query.",
+    "User may download any itinerary as a PDF file using built-in export functionality.",
+    "An interactive map view shows travel destinations and planned routes for enhanced visualization.",
+    "User can log out, ending the authenticated session and protecting routes accordingly."
+  ],
+  "validation_criteria": [
+    "Successful user login and signup via Firebase authentication with proper state updates.",
+    "Backend itineraries endpoint correctly generates AI itineraries with valid input and persists data in database.",
+    "User-specific itinerary history is accurately retrieved and displayed by the frontend from backend API.",
+    "Itinerary PDF export produces clear and correctly formatted documents matching displayed content.",
+    "Interactive map correctly marks destinations and routes based on itinerary data.",
+    "API endpoints implement appropriate input validation and return meaningful error messages on failure.",
+    "Frontend routing protects sensitive pages and ensures only authenticated users can access personal data.",
+    "Docker containers build and deploy with all services communicating as expected in dev and production environments.",
+    "Environment variables and secrets such as GROQ API key and Firebase config are securely managed and not exposed unnecessarily.",
+    "Performance requirements are met: AI response times are within 2-5 seconds and UI remains responsive during PDF generation and data fetching."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "Python",
+      "Django",
+      "Django REST Framework",
+      "TypeScript",
+      "React",
+      "Node.js",
+      "PostgreSQL",
+      "SQLite",
+      "Firebase",
+      "TailwindCSS",
+      "Docker",
+      "GROQ API",
+      "HTML2Canvas",
+      "jsPDF",
+      "Axios",
+      "React Router",
+      "Leaflet Maps"
+    ],
+    "features": [
+      {
+        "name": "Authentication System",
+        "description": "Firebase-based user authentication with email/password and Google OAuth support",
+        "files": [
+          "frontend/src/contexts/AuthContext.tsx",
+          "frontend/src/firebase.ts",
+          "frontend/src/components/Login.tsx",
+          "frontend/src/components/Signup.tsx",
+          "backend/travel_app/middleware.py"
+        ]
+      },
+      {
+        "name": "AI Itinerary Generation",
+        "description": "GROQ API integration for generating personalized travel itineraries using OpenAI GPT models",
+        "files": [
+          "backend/travel_app/views.py",
+          "frontend/src/components/ItineraryForm.tsx"
+        ]
+      },
+      {
+        "name": "Itinerary History Management",
+        "description": "User-specific itinerary storage, retrieval, and management system",
+        "files": [
+          "frontend/src/components/History.tsx",
+          "backend/travel_app/models.py",
+          "backend/travel_app/serializers.py"
+        ]
+      },
+      {
+        "name": "PDF Export Functionality",
+        "description": "Convert itineraries to downloadable PDF documents using HTML2Canvas and jsPDF",
+        "files": [
+          "frontend/src/components/ItineraryForm.tsx",
+          "frontend/src/components/History.tsx"
+        ]
+      },
+      {
+        "name": "Interactive Map Integration",
+        "description": "Leaflet-based map visualization for travel destinations and routes",
+        "files": [
+          "frontend/src/components/Map.tsx",
+          "frontend/src/components/MapView.tsx"
+        ]
+      },
+      {
+        "name": "REST API Backend",
+        "description": "Django REST Framework API for itinerary CRUD operations and user management",
+        "files": [
+          "backend/travel_app/views.py",
+          "backend/travel_app/urls.py",
+          "backend/travel_app/serializers.py"
+        ]
+      },
+      {
+        "name": "Data Models",
+        "description": "Django ORM models for itinerary data persistence and user association",
+        "files": [
+          "backend/travel_app/models.py",
+          "backend/travel_app/migrations/0001_initial.py",
+          "backend/travel_app/migrations/0002_itinerary_user_email.py"
+        ]
+      },
+      {
+        "name": "Responsive UI Components",
+        "description": "React TypeScript components with TailwindCSS styling and dark theme support",
+        "files": [
+          "frontend/src/App.tsx",
+          "frontend/src/components/ItineraryForm.tsx",
+          "frontend/src/components/History.tsx",
+          "frontend/src/components/Login.tsx",
+          "frontend/src/components/Signup.tsx"
+        ]
+      },
+      {
+        "name": "Client-Side Routing",
+        "description": "React Router implementation with protected routes and navigation",
+        "files": [
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "name": "Type Definitions",
+        "description": "TypeScript interfaces and types for data structures and API responses",
+        "files": [
+          "frontend/src/types.ts",
+          "frontend/src/types/index.ts"
+        ]
+      },
+      {
+        "name": "Database Configuration",
+        "description": "Multi-environment database setup with PostgreSQL for production and SQLite for development",
+        "files": [
+          "backend/travel_planner/settings.py",
+          "docker-compose.yml"
+        ]
+      },
+      {
+        "name": "CORS and Security Middleware",
+        "description": "Cross-origin resource sharing configuration and Firebase authentication middleware",
+        "files": [
+          "backend/travel_planner/settings.py",
+          "backend/travel_app/middleware.py"
+        ]
+      },
+      {
+        "name": "Docker Containerization",
+        "description": "Multi-container Docker setup for frontend, backend, and database services",
+        "files": [
+          "docker-compose.yml",
+          "backend/Dockerfile",
+          "frontend/Dockerfile"
+        ]
+      },
+      {
+        "name": "Environment Configuration",
+        "description": "Environment variable management for API keys, database settings, and deployment configuration",
+        "files": [
+          "backend/.env.example",
+          "frontend/.env.example"
+        ]
+      },
+      {
+        "name": "Error Handling and Validation",
+        "description": "Comprehensive error handling for API calls, form validation, and user feedback",
+        "files": [
+          "frontend/src/components/ItineraryForm.tsx",
+          "frontend/src/components/History.tsx",
+          "backend/travel_app/views.py",
+          "backend/travel_app/serializers.py"
+        ]
+      }
+    ]
+  }
+}

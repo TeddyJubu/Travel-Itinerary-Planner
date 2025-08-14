@@ -1,0 +1,178 @@
+project:
+  name: "AI Travel Itinerary Planner"
+  version: "1.0.0"
+  description: "Full-stack web application that generates personalized travel itineraries using AI and maintains user-specific history with Firebase authentication"
+  repository: "https://github.com/user/Travel-Itinerary-Planner"
+  license: "MIT"
+  created: "2024"
+  last_updated: "2024-01-15"
+
+capabilities:
+  - "AI-powered travel itinerary generation using GROQ API"
+  - "User authentication and session management via Firebase"
+  - "Persistent storage of user itinerary history"
+  - "PDF export functionality for generated itineraries"
+  - "Responsive web interface with dark theme"
+  - "RESTful API for itinerary CRUD operations"
+  - "Docker containerization for easy deployment"
+  - "Cross-platform compatibility (web browsers)"
+  - "Real-time form validation and error handling"
+  - "Markdown rendering for rich text itineraries"
+
+limitations:
+  - "No offline functionality - requires internet connection"
+  - "Dependent on external GROQ API availability and rate limits"
+  - "No user authentication integration between Firebase and Django backend"
+  - "Limited to text-based itineraries (no maps or images)"
+  - "No collaborative features or itinerary sharing"
+  - "No mobile app - web-only interface"
+  - "No caching mechanism for repeated requests"
+  - "No user preference storage or personalization"
+  - "No itinerary editing or modification features"
+  - "No integration with booking platforms or travel APIs"
+
+key_algorithms:
+  - name: "AI Itinerary Generation"
+    location: "backend/travel_app/views.py:ItineraryView.post"
+    complexity: "O(1)"
+    description: "Calls GROQ API with structured prompt to generate travel itinerary"
+    dependencies: ["GROQ API", "requests library"]
+  
+  - name: "User History Retrieval"
+    location: "backend/travel_app/views.py:HistoryView.get"
+    complexity: "O(n)"
+    description: "Queries database for user-specific itineraries ordered by creation date"
+    dependencies: ["Django ORM", "PostgreSQL"]
+  
+  - name: "PDF Generation"
+    location: "frontend/src/components/ItineraryForm.tsx:exportToPDF"
+    complexity: "O(n)"
+    description: "Converts HTML content to canvas then to PDF using html2canvas and jsPDF"
+    dependencies: ["html2canvas", "jsPDF"]
+  
+  - name: "Firebase Authentication"
+    location: "frontend/src/contexts/AuthContext.tsx"
+    complexity: "O(1)"
+    description: "Manages user authentication state and provides auth methods"
+    dependencies: ["Firebase Auth SDK"]
+
+performance_considerations:
+  - "GROQ API response time: 2-5 seconds per request"
+  - "PDF generation performance depends on itinerary length and browser capabilities"
+  - "Database queries are simple and fast with proper indexing"
+  - "Frontend bundle size: ~2MB including all dependencies"
+  - "No pagination implemented for history view - could impact performance with many itineraries"
+  - "No request caching - each itinerary generation hits the AI API"
+  - "Firebase Auth adds ~500KB to bundle size"
+  - "React rendering performance good for typical use cases"
+
+security_notes:
+  - "Firebase API keys exposed in frontend code (standard practice for client-side auth)"
+  - "GROQ API key properly secured in backend environment variables"
+  - "No backend validation of Firebase tokens - security vulnerability"
+  - "CORS configured for specific origins only"
+  - "No rate limiting implemented on backend endpoints"
+  - "SQL injection protected by Django ORM"
+  - "XSS protection via React's built-in escaping"
+  - "No HTTPS enforcement in development mode"
+  - "User data associated by email only - no strong user identification"
+  - "No input sanitization for AI prompts - potential for prompt injection"
+
+technology_stack:
+  frontend:
+    framework: "React 18.2.0"
+    language: "TypeScript 4.9.5"
+    styling: "TailwindCSS 3.4.1"
+    state_management: "React Context API"
+    routing: "React Router DOM 6.22.2"
+    http_client: "Axios 1.6.7"
+    authentication: "Firebase Auth 11.9.1"
+    pdf_generation: "jsPDF 3.0.1 + html2canvas 1.4.1"
+    markdown_rendering: "react-markdown 10.1.0"
+    animations: "Framer Motion 12.17.0"
+  
+  backend:
+    framework: "Django 4.2.23"
+    language: "Python 3.10"
+    api_framework: "Django REST Framework 3.14.0"
+    database: "PostgreSQL (production) / SQLite (development)"
+    ai_service: "GROQ API (Meta LLaMA-4-Scout)"
+    cors_handling: "django-cors-headers 4.3.1"
+    server: "Gunicorn 23.0.0"
+    environment: "python-dotenv 1.0.1"
+  
+  deployment:
+    containerization: "Docker + Docker Compose"
+    frontend_hosting: "Vercel"
+    backend_hosting: "Render.com"
+    database_hosting: "Render PostgreSQL"
+    reverse_proxy: "Nginx (production)"
+
+api_integrations:
+  - name: "GROQ AI API"
+    purpose: "Travel itinerary generation"
+    model: "meta-llama/llama-4-scout-17b-16e-instruct"
+    rate_limits: "Varies by plan"
+    cost_model: "Pay-per-token"
+    max_tokens: 2000
+    temperature: 0.7
+  
+  - name: "Firebase Authentication"
+    purpose: "User authentication and session management"
+    methods: ["Email/Password", "Google OAuth"]
+    features: ["User registration", "Login", "Logout", "Session persistence"]
+
+development_setup:
+  prerequisites:
+    - "Node.js 18+"
+    - "Python 3.10+"
+    - "Docker and Docker Compose"
+    - "GROQ API key"
+    - "Firebase project configuration"
+  
+  environment_variables:
+    backend:
+      - "GROQ_API_KEY: Your GROQ API key"
+      - "SECRET_KEY: Django secret key"
+      - "DEBUG: Development mode flag"
+      - "DATABASE_URL: PostgreSQL connection string (production)"
+    
+    frontend:
+      - "REACT_APP_API_URL: Backend API URL"
+      - "Firebase config in firebase.ts"
+  
+  commands:
+    development:
+      - "docker-compose up (full stack)"
+      - "npm start (frontend only)"
+      - "python manage.py runserver (backend only)"
+    
+    production:
+      - "docker-compose -f docker-compose.prod.yml up"
+      - "npm run build (frontend)"
+      - "python manage.py collectstatic (backend)"
+
+monitoring_and_logging:
+  - "Django built-in logging for backend errors"
+  - "Console logging for frontend debugging"
+  - "No centralized logging system implemented"
+  - "No application performance monitoring"
+  - "No error tracking service integration"
+  - "Basic HTTP access logs via web server"
+
+testing_strategy:
+  - "No automated tests implemented"
+  - "Manual testing for core functionality"
+  - "Browser compatibility testing needed"
+  - "API endpoint testing via Postman/curl"
+  - "Responsive design testing across devices"
+
+deployment_considerations:
+  - "Environment-specific configuration management"
+  - "Database migration handling"
+  - "Static file serving optimization"
+  - "SSL certificate configuration for production"
+  - "CDN setup for static assets"
+  - "Backup and disaster recovery planning"
+  - "Monitoring and alerting setup"
+  - "Scaling considerations for high traffic"

@@ -1,0 +1,81 @@
+graph TB
+    %% User Interface Layer
+    subgraph "Frontend (React + TypeScript)"
+        UI["🖥️ User Interface"]
+        Auth["🔐 Authentication"]
+        Forms["📝 Forms & Components"]
+        Router["🛣️ React Router"]
+    end
+
+    %% Backend Services
+    subgraph "Backend (Django + DRF)"
+        API["🔌 REST API"]
+        Views["👁️ Django Views"]
+        Models["📊 Data Models"]
+        Serializers["🔄 Serializers"]
+    end
+
+    %% External Services
+    subgraph "External Services"
+        Firebase["🔥 Firebase Auth"]
+        GROQ["🤖 GROQ AI API"]
+        Render["☁️ Render Hosting"]
+    end
+
+    %% Database
+    subgraph "Data Storage"
+        PostgreSQL[("🐘 PostgreSQL")]
+        SQLite[("💾 SQLite (Dev)")]
+    end
+
+    %% Infrastructure
+    subgraph "Infrastructure"
+        Docker["🐳 Docker"]
+        Compose["📦 Docker Compose"]
+    end
+
+    %% User Interactions
+    User(["👤 User"]) --> UI
+    UI --> Auth
+    UI --> Forms
+    UI --> Router
+
+    %% Frontend to Backend Communication
+    Forms -."HTTP/HTTPS".-> API
+    Auth -."Auth Tokens".-> API
+
+    %% Backend Internal Flow
+    API --> Views
+    Views --> Serializers
+    Views --> Models
+    Models --> PostgreSQL
+    Models --> SQLite
+
+    %% External Service Integration
+    Auth <-."OAuth/JWT".-> Firebase
+    Views -."API Calls".-> GROQ
+    API -."Deployed on".-> Render
+
+    %% Infrastructure
+    Docker --> UI
+    Docker --> API
+    Docker --> PostgreSQL
+    Compose --> Docker
+
+    %% Data Flow Annotations
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef backend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef external fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef database fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef infrastructure fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+
+    class UI,Auth,Forms,Router frontend
+    class API,Views,Models,Serializers backend
+    class Firebase,GROQ,Render external
+    class PostgreSQL,SQLite database
+    class Docker,Compose infrastructure
+
+    %% Key Features Annotations
+    UI -."Features".-> Features["✨ Key Features<br/>• AI Itinerary Generation<br/>• User Authentication<br/>• History Management<br/>• PDF Export<br/>• Responsive Design"]
+    
+    style Features fill:#fff9c4,stroke:#f57f17,stroke-width:2px

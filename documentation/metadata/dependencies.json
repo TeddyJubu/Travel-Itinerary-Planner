@@ -1,0 +1,311 @@
+{
+  "internal_dependencies": {
+    "backend/travel_app/views.py": [
+      "backend/travel_app/models.py",
+      "backend/travel_app/serializers.py"
+    ],
+    "backend/travel_app/serializers.py": [
+      "backend/travel_app/models.py"
+    ],
+    "backend/travel_app/urls.py": [
+      "backend/travel_app/views.py"
+    ],
+    "backend/travel_project/urls.py": [
+      "backend/travel_app/urls.py"
+    ],
+    "backend/travel_project/settings.py": [
+      "backend/travel_app/apps.py"
+    ],
+    "frontend/src/App.tsx": [
+      "frontend/src/contexts/AuthContext.tsx",
+      "frontend/src/components/ItineraryForm.tsx",
+      "frontend/src/components/Login.tsx",
+      "frontend/src/components/Signup.tsx",
+      "frontend/src/components/History.tsx"
+    ],
+    "frontend/src/components/ItineraryForm.tsx": [
+      "frontend/src/contexts/AuthContext.tsx",
+      "frontend/src/types.ts"
+    ],
+    "frontend/src/components/History.tsx": [
+      "frontend/src/contexts/AuthContext.tsx",
+      "frontend/src/types.ts"
+    ],
+    "frontend/src/components/Login.tsx": [
+      "frontend/src/contexts/AuthContext.tsx"
+    ],
+    "frontend/src/components/Signup.tsx": [
+      "frontend/src/contexts/AuthContext.tsx"
+    ],
+    "frontend/src/contexts/AuthContext.tsx": [
+      "frontend/src/firebase.ts"
+    ]
+  },
+  "external_dependencies": {
+    "backend": {
+      "Django": {
+        "version": "5.0.2",
+        "usage": [
+          "backend/travel_project/settings.py",
+          "backend/travel_app/models.py",
+          "backend/travel_app/views.py",
+          "backend/travel_app/urls.py"
+        ],
+        "purpose": "Web framework for backend API"
+      },
+      "djangorestframework": {
+        "version": "3.14.0",
+        "usage": [
+          "backend/travel_app/views.py",
+          "backend/travel_app/serializers.py"
+        ],
+        "purpose": "REST API framework for Django"
+      },
+      "django-cors-headers": {
+        "version": "4.3.1",
+        "usage": [
+          "backend/travel_project/settings.py"
+        ],
+        "purpose": "Handle CORS for frontend-backend communication"
+      },
+      "openai": {
+        "version": "1.6.1",
+        "usage": [
+          "backend/travel_app/views.py"
+        ],
+        "purpose": "AI API client (used for GROQ API)"
+      },
+      "python-dotenv": {
+        "version": "1.0.0",
+        "usage": [
+          "backend/travel_project/settings.py"
+        ],
+        "purpose": "Load environment variables from .env file"
+      },
+      "gunicorn": {
+        "version": "21.2.0",
+        "usage": [
+          "backend/Dockerfile"
+        ],
+        "purpose": "WSGI HTTP server for production deployment"
+      },
+      "google-generativeai": {
+        "version": "0.3.2",
+        "usage": [
+          "backend/travel_app/views.py"
+        ],
+        "purpose": "Google AI API client (alternative AI provider)"
+      },
+      "requests": {
+        "version": "2.31.0",
+        "usage": [
+          "backend/travel_app/views.py"
+        ],
+        "purpose": "HTTP library for API calls"
+      },
+      "psycopg2-binary": {
+        "version": "2.9.9",
+        "usage": [
+          "backend/travel_project/settings.py"
+        ],
+        "purpose": "PostgreSQL database adapter"
+      }
+    },
+    "frontend": {
+      "react": {
+        "version": "^18.2.0",
+        "usage": [
+          "frontend/src/App.tsx",
+          "frontend/src/components/*.tsx",
+          "frontend/src/contexts/AuthContext.tsx"
+        ],
+        "purpose": "Frontend UI library"
+      },
+      "react-dom": {
+        "version": "^18.2.0",
+        "usage": [
+          "frontend/src/index.tsx"
+        ],
+        "purpose": "React DOM rendering"
+      },
+      "react-router-dom": {
+        "version": "^6.8.1",
+        "usage": [
+          "frontend/src/App.tsx"
+        ],
+        "purpose": "Client-side routing"
+      },
+      "typescript": {
+        "version": "^4.9.5",
+        "usage": [
+          "All .tsx and .ts files"
+        ],
+        "purpose": "Type safety and enhanced development experience"
+      },
+      "axios": {
+        "version": "^1.3.4",
+        "usage": [
+          "frontend/src/components/ItineraryForm.tsx",
+          "frontend/src/components/History.tsx"
+        ],
+        "purpose": "HTTP client for API calls"
+      },
+      "firebase": {
+        "version": "^9.17.2",
+        "usage": [
+          "frontend/src/firebase.ts",
+          "frontend/src/contexts/AuthContext.tsx"
+        ],
+        "purpose": "Authentication and user management"
+      },
+      "tailwindcss": {
+        "version": "^3.2.7",
+        "usage": [
+          "All component files for styling"
+        ],
+        "purpose": "Utility-first CSS framework"
+      },
+      "html2canvas": {
+        "version": "^1.4.1",
+        "usage": [
+          "frontend/src/components/ItineraryForm.tsx",
+          "frontend/src/components/History.tsx"
+        ],
+        "purpose": "Convert HTML elements to canvas for PDF generation"
+      },
+      "jspdf": {
+        "version": "^2.5.1",
+        "usage": [
+          "frontend/src/components/ItineraryForm.tsx",
+          "frontend/src/components/History.tsx"
+        ],
+        "purpose": "Generate PDF documents from canvas"
+      }
+    },
+    "deployment": {
+      "docker": {
+        "version": "latest",
+        "usage": [
+          "docker-compose.yml",
+          "backend/Dockerfile",
+          "frontend/Dockerfile"
+        ],
+        "purpose": "Containerization for consistent deployment"
+      },
+      "postgresql": {
+        "version": "13",
+        "usage": [
+          "docker-compose.yml"
+        ],
+        "purpose": "Production database"
+      },
+      "node": {
+        "version": "18-alpine",
+        "usage": [
+          "frontend/Dockerfile"
+        ],
+        "purpose": "Runtime for frontend build and serve"
+      },
+      "python": {
+        "version": "3.10-slim",
+        "usage": [
+          "backend/Dockerfile"
+        ],
+        "purpose": "Runtime for Django backend"
+      }
+    },
+    "external_services": {
+      "GROQ_API": {
+        "version": "v1",
+        "usage": [
+          "backend/travel_app/views.py"
+        ],
+        "purpose": "AI-powered itinerary generation",
+        "endpoint": "https://api.groq.com/openai/v1/chat/completions"
+      },
+      "Firebase_Auth": {
+        "version": "v9",
+        "usage": [
+          "frontend/src/contexts/AuthContext.tsx",
+          "frontend/src/firebase.ts"
+        ],
+        "purpose": "User authentication and management",
+        "features": ["Email/Password auth", "Google OAuth"]
+      },
+      "Render_Deployment": {
+        "version": "latest",
+        "usage": [
+          "Backend API hosting"
+        ],
+        "purpose": "Production backend deployment",
+        "endpoint": "https://ai-travel-itinerary-planner.onrender.com"
+      }
+    }
+  },
+  "dependency_analysis": {
+    "critical_dependencies": [
+      "Django",
+      "React",
+      "Firebase",
+      "GROQ_API"
+    ],
+    "security_sensitive": [
+      "Firebase",
+      "GROQ_API",
+      "django-cors-headers",
+      "psycopg2-binary"
+    ],
+    "performance_critical": [
+      "axios",
+      "html2canvas",
+      "jspdf",
+      "gunicorn"
+    ],
+    "development_only": [
+      "typescript",
+      "tailwindcss"
+    ],
+    "potential_vulnerabilities": [
+      {
+        "dependency": "openai",
+        "issue": "API key exposure risk",
+        "mitigation": "Use environment variables"
+      },
+      {
+        "dependency": "django-cors-headers",
+        "issue": "Overly permissive CORS settings",
+        "mitigation": "Restrict to specific domains"
+      },
+      {
+        "dependency": "firebase",
+        "issue": "Client-side auth tokens",
+        "mitigation": "Implement backend token validation"
+      }
+    ],
+    "update_recommendations": [
+      {
+        "dependency": "react",
+        "current": "^18.2.0",
+        "recommended": "^18.3.0",
+        "reason": "Security patches and performance improvements"
+      },
+      {
+        "dependency": "django",
+        "current": "5.0.2",
+        "recommended": "5.0.8",
+        "reason": "Security updates"
+      }
+    ]
+  },
+  "metadata": {
+    "total_dependencies": 23,
+    "backend_dependencies": 9,
+    "frontend_dependencies": 9,
+    "deployment_dependencies": 4,
+    "external_services": 3,
+    "last_analyzed": "2024-01-15T10:00:00Z",
+    "dependency_tree_depth": 3,
+    "circular_dependencies": [],
+    "unused_dependencies": []
+  }
+}

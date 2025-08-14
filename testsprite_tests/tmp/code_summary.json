@@ -1,0 +1,154 @@
+{
+  "tech_stack": [
+    "Python",
+    "Django",
+    "Django REST Framework",
+    "TypeScript",
+    "React",
+    "Node.js",
+    "PostgreSQL",
+    "SQLite",
+    "Firebase",
+    "TailwindCSS",
+    "Docker",
+    "GROQ API",
+    "HTML2Canvas",
+    "jsPDF",
+    "Axios",
+    "React Router",
+    "Leaflet Maps"
+  ],
+  "features": [
+    {
+      "name": "Authentication System",
+      "description": "Firebase-based user authentication with email/password and Google OAuth support",
+      "files": [
+        "frontend/src/contexts/AuthContext.tsx",
+        "frontend/src/firebase.ts",
+        "frontend/src/components/Login.tsx",
+        "frontend/src/components/Signup.tsx",
+        "backend/travel_app/middleware.py"
+      ]
+    },
+    {
+      "name": "AI Itinerary Generation",
+      "description": "GROQ API integration for generating personalized travel itineraries using OpenAI GPT models",
+      "files": [
+        "backend/travel_app/views.py",
+        "frontend/src/components/ItineraryForm.tsx"
+      ]
+    },
+    {
+      "name": "Itinerary History Management",
+      "description": "User-specific itinerary storage, retrieval, and management system",
+      "files": [
+        "frontend/src/components/History.tsx",
+        "backend/travel_app/models.py",
+        "backend/travel_app/serializers.py"
+      ]
+    },
+    {
+      "name": "PDF Export Functionality",
+      "description": "Convert itineraries to downloadable PDF documents using HTML2Canvas and jsPDF",
+      "files": [
+        "frontend/src/components/ItineraryForm.tsx",
+        "frontend/src/components/History.tsx"
+      ]
+    },
+    {
+      "name": "Interactive Map Integration",
+      "description": "Leaflet-based map visualization for travel destinations and routes",
+      "files": [
+        "frontend/src/components/Map.tsx",
+        "frontend/src/components/MapView.tsx"
+      ]
+    },
+    {
+      "name": "REST API Backend",
+      "description": "Django REST Framework API for itinerary CRUD operations and user management",
+      "files": [
+        "backend/travel_app/views.py",
+        "backend/travel_app/urls.py",
+        "backend/travel_app/serializers.py"
+      ]
+    },
+    {
+      "name": "Data Models",
+      "description": "Django ORM models for itinerary data persistence and user association",
+      "files": [
+        "backend/travel_app/models.py",
+        "backend/travel_app/migrations/0001_initial.py",
+        "backend/travel_app/migrations/0002_itinerary_user_email.py"
+      ]
+    },
+    {
+      "name": "Responsive UI Components",
+      "description": "React TypeScript components with TailwindCSS styling and dark theme support",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/ItineraryForm.tsx",
+        "frontend/src/components/History.tsx",
+        "frontend/src/components/Login.tsx",
+        "frontend/src/components/Signup.tsx"
+      ]
+    },
+    {
+      "name": "Client-Side Routing",
+      "description": "React Router implementation with protected routes and navigation",
+      "files": [
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "name": "Type Definitions",
+      "description": "TypeScript interfaces and types for data structures and API responses",
+      "files": [
+        "frontend/src/types.ts",
+        "frontend/src/types/index.ts"
+      ]
+    },
+    {
+      "name": "Database Configuration",
+      "description": "Multi-environment database setup with PostgreSQL for production and SQLite for development",
+      "files": [
+        "backend/travel_planner/settings.py",
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "name": "CORS and Security Middleware",
+      "description": "Cross-origin resource sharing configuration and Firebase authentication middleware",
+      "files": [
+        "backend/travel_planner/settings.py",
+        "backend/travel_app/middleware.py"
+      ]
+    },
+    {
+      "name": "Docker Containerization",
+      "description": "Multi-container Docker setup for frontend, backend, and database services",
+      "files": [
+        "docker-compose.yml",
+        "backend/Dockerfile",
+        "frontend/Dockerfile"
+      ]
+    },
+    {
+      "name": "Environment Configuration",
+      "description": "Environment variable management for API keys, database settings, and deployment configuration",
+      "files": [
+        "backend/.env.example",
+        "frontend/.env.example"
+      ]
+    },
+    {
+      "name": "Error Handling and Validation",
+      "description": "Comprehensive error handling for API calls, form validation, and user feedback",
+      "files": [
+        "frontend/src/components/ItineraryForm.tsx",
+        "frontend/src/components/History.tsx",
+        "backend/travel_app/views.py",
+        "backend/travel_app/serializers.py"
+      ]
+    }
+  ]
+}

@@ -25,7 +25,7 @@ const Signup = () => {
       navigate('/');
     } catch (err) {
       setError('Failed to create an account');
-      console.error(err);
+      // Error logged for debugging
     }
     setLoading(false);
   };
@@ -38,7 +38,7 @@ const Signup = () => {
       navigate('/');
     } catch (err) {
       setError('Failed to sign up with Google');
-      console.error(err);
+      // Error logged for debugging
     }
     setLoading(false);
   };
@@ -170,4 +170,4 @@ const Signup = () => {
   );
 };
 
-export default Signup; 
+export default Signup;

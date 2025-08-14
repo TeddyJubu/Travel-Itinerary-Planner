@@ -5,13 +5,14 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
+import Map from './Map';
 
 const ItineraryForm: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, getIdToken } = useAuth();
   const [formData, setFormData] = useState<ItineraryRequest>({
     destination: '',
     days: 1,
-    user_email: currentUser?.email || '',
+    user_email: currentUser?.email || '', // Keep for local state, but won't send to API
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
@@ -20,6 +21,15 @@ const ItineraryForm: React.FC = () => {
   
   const resultRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Handle form submission for creating a new itinerary
+   * 
+   * This function:
+   * 1. Validates user authentication
+   * 2. Gets Firebase ID token for API authentication
+   * 3. Sends request with token in Authorization header
+   * 4. Removes user_email from request body (handled by backend via token)
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser?.email) {
@@ -32,21 +42,62 @@ const ItineraryForm: React.FC = () => {
     setResult(null);
 
     try {
-      const response = await axios.post('https://ai-travel-itinerary-planner.onrender.com/api/itinerary/', {
-        ...formData,
-        user_email: currentUser.email
-      });
+      // Get Firebase ID token for authentication
+      const idToken = await getIdToken();
+      if (!idToken) {
+        setError('Authentication failed. Please try logging in again.');
+        setLoading(false);
+        return;
+      }
+
+      // Prepare request data without user_email (handled by backend via token)
+      const requestData = {
+        destination: formData.destination,
+        days: formData.days
+        // user_email removed - backend gets this from Firebase token
+      };
+
+      // Make API request with Firebase token in Authorization header
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/itinerary/`,
+        requestData,
+        {
+          headers: {
+            'Authorization': `Bearer ${idToken}`,
+            'Content-Type': 'application/json'
+          },
+          timeout: 60000 // 60 second timeout for AI generation
+        }
+      );
+      
       setResult(response.data.result);
-    } catch (err) {
-      setError('Failed to generate itinerary. Please try again.');
-      console.error(err);
+    } catch (err: any) {
+      console.error('Error creating itinerary:', err);
+      
+      // Handle different types of errors
+      if (err.response?.status === 401) {
+        setError('Authentication failed. Please log in again.');
+      } else if (err.response?.status === 403) {
+        setError('Access denied. Please check your permissions.');
+      } else if (err.response?.status === 400) {
+        const errorMessage = err.response?.data?.error || 'Invalid request data.';
+        setError(errorMessage);
+      } else if (err.response?.status === 500) {
+        setError('Server error. Please try again later.');
+      } else if (err.code === 'ECONNABORTED') {
+        setError('Request timeout. The AI is taking longer than usual. Please try again.');
+      } else {
+        setError('Failed to generate itinerary. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const exportToPDF = async () => {
-    if (!resultRef.current) return;
+    if (!resultRef.current) {
+      return;
+    }
     
     setPdfLoading(true);
     try {
@@ -183,6 +234,25 @@ const ItineraryForm: React.FC = () => {
       {result && (
         <div className="card" ref={resultRef}>
           <h3 className="text-xl font-semibold text-primary mb-4">Your Itinerary for {formData.destination}</h3>
+          
+          {/* Map Display */}
+          <div className="mb-6">
+            <h4 className="text-lg font-semibold text-white mb-3">📍 Locations Map</h4>
+            <Map
+              itinerary={{
+                id: 0,
+                destination: formData.destination,
+                days: formData.days,
+                result: result,
+                created_at: new Date().toISOString(),
+                user_email: formData.user_email
+              }}
+              height="400px"
+              zoom={10}
+              showControls={true}
+            />
+          </div>
+          
           <div className="prose prose-invert max-w-none bg-dark rounded-lg p-5 border border-dark-light">
             <ReactMarkdown
               components={{

@@ -1,0 +1,116 @@
+{
+  "potential_bugs": [
+    {
+      "severity": "high",
+      "file": "frontend/src/components/History.tsx",
+      "line": 25,
+      "type": "null_reference",
+      "code": "currentUser.email",
+      "issue": "Potential null reference if currentUser is null during component mount",
+      "suggestion": "Add null check before accessing email property",
+      "example_fix": "const userEmail = currentUser?.email;\nif (!userEmail) return <div>Please log in</div>;"
+    },
+    {
+      "severity": "high",
+      "file": "backend/travel_app/views.py",
+      "line": 67,
+      "type": "unhandled_exception",
+      "code": "except Exception as e:",
+      "issue": "Generic exception handling masks specific API errors",
+      "suggestion": "Handle specific exceptions and provide meaningful error responses",
+      "example_fix": "except groq.APIError as e:\n    return Response({'error': 'AI service unavailable'}, status=503)\nexcept groq.RateLimitError as e:\n    return Response({'error': 'Rate limit exceeded'}, status=429)"
+    },
+    {
+      "severity": "medium",
+      "file": "frontend/src/components/ItineraryForm.tsx",
+      "line": 45,
+      "type": "race_condition",
+      "code": "setLoading(true); const response = await fetch(...)",
+      "issue": "Component might unmount before async operation completes",
+      "suggestion": "Use cleanup function or AbortController",
+      "example_fix": "useEffect(() => {\n  const controller = new AbortController();\n  // fetch with signal: controller.signal\n  return () => controller.abort();\n}, []);"
+    },
+    {
+      "severity": "medium",
+      "file": "frontend/src/components/History.tsx",
+      "line": 89,
+      "type": "memory_leak",
+      "code": "document.addEventListener('keydown', handleEscapeKey);",
+      "issue": "Event listener not removed on component unmount",
+      "suggestion": "Add cleanup in useEffect return function",
+      "example_fix": "useEffect(() => {\n  const handleEscape = (e) => { /* handler */ };\n  document.addEventListener('keydown', handleEscape);\n  return () => document.removeEventListener('keydown', handleEscape);\n}, []);"
+    },
+    {
+      "severity": "medium",
+      "file": "backend/travel_app/views.py",
+      "line": 85,
+      "type": "data_integrity",
+      "code": "user_email = request.GET.get('user_email')",
+      "issue": "No validation that user_email belongs to authenticated user",
+      "suggestion": "Validate user_email against authenticated user",
+      "example_fix": "authenticated_email = verify_firebase_token(request)\nif user_email != authenticated_email:\n    return Response({'error': 'Unauthorized'}, status=403)"
+    },
+    {
+      "severity": "low",
+      "file": "frontend/src/contexts/AuthContext.tsx",
+      "line": 45,
+      "type": "infinite_loop",
+      "code": "useEffect(() => { onAuthStateChanged(auth, setCurrentUser); }, []);",
+      "issue": "Missing cleanup for Firebase auth listener",
+      "suggestion": "Return unsubscribe function from useEffect",
+      "example_fix": "useEffect(() => {\n  const unsubscribe = onAuthStateChanged(auth, setCurrentUser);\n  return unsubscribe;\n}, []);"
+    },
+    {
+      "severity": "low",
+      "file": "frontend/src/components/ItineraryForm.tsx",
+      "line": 78,
+      "type": "state_mutation",
+      "code": "setResult(data.result);",
+      "issue": "Direct state update without validation",
+      "suggestion": "Validate API response before setting state",
+      "example_fix": "if (data && typeof data.result === 'string') {\n  setResult(data.result);\n} else {\n  setError('Invalid response format');\n}"
+    }
+  ],
+  "error_handling": {
+    "missing_try_catch": [
+      "frontend/src/components/History.tsx:fetchItineraries()",
+      "frontend/src/components/ItineraryForm.tsx:handleSubmit()",
+      "backend/travel_app/views.py:HistoryView.get()"
+    ],
+    "unhandled_promise_rejection": [
+      "frontend/src/components/History.tsx:exportToPDF()",
+      "frontend/src/components/ItineraryForm.tsx:generateItinerary()"
+    ],
+    "generic_error_catching": [
+      "backend/travel_app/views.py:ItineraryView.post()"
+    ]
+  },
+  "data_validation_issues": [
+    {
+      "file": "backend/travel_app/serializers.py",
+      "issue": "Missing comprehensive input validation",
+      "suggestion": "Add custom validators for destination and days fields",
+      "example": "def validate_destination(self, value):\n    if len(value.strip()) < 2:\n        raise serializers.ValidationError('Destination too short')\n    return value.strip()"
+    },
+    {
+      "file": "frontend/src/components/ItineraryForm.tsx",
+      "issue": "Client-side validation only",
+      "suggestion": "Add server-side validation as primary defense",
+      "example": "Backend should validate all inputs regardless of frontend validation"
+    }
+  ],
+  "performance_issues": [
+    {
+      "file": "frontend/src/components/History.tsx",
+      "issue": "Fetches all itineraries without pagination",
+      "impact": "Slow loading with many itineraries",
+      "suggestion": "Implement pagination or virtual scrolling"
+    },
+    {
+      "file": "backend/travel_app/views.py",
+      "issue": "No caching for expensive GROQ API calls",
+      "impact": "Repeated API costs and slow response",
+      "suggestion": "Implement Redis caching for similar requests"
+    }
+  ]
+}

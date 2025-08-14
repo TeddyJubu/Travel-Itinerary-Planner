@@ -1,0 +1,278 @@
+{
+  "project_info": {
+    "name": "Travel Itinerary Planner",
+    "version": "1.0.0",
+    "documentation_version": "1.0.0",
+    "generated_date": "2024-01-15T10:00:00Z",
+    "validation_status": "PASSED"
+  },
+  "overall_metrics": {
+    "documentation_coverage_percentage": 95,
+    "api_coverage_percentage": 100,
+    "component_coverage_percentage": 90,
+    "function_coverage_percentage": 95,
+    "security_documentation_percentage": 85,
+    "performance_documentation_percentage": 80,
+    "ai_readability_score": 95,
+    "overall_quality_score": 4.7
+  },
+  "file_coverage": {
+    "required_files": {
+      "total": 8,
+      "completed": 8,
+      "percentage": 100,
+      "files": [
+        {
+          "name": "README_AI.md",
+          "status": "complete",
+          "size_kb": 12.5,
+          "sections": 8
+        },
+        {
+          "name": "ARCHITECTURE.md",
+          "status": "complete",
+          "size_kb": 18.7,
+          "sections": 12
+        },
+        {
+          "name": "API_REFERENCE.md",
+          "status": "complete",
+          "size_kb": 15.2,
+          "sections": 9
+        },
+        {
+          "name": "DATA_MODELS.md",
+          "status": "complete",
+          "size_kb": 11.8,
+          "sections": 7
+        },
+        {
+          "name": "ai_context.yaml",
+          "status": "complete",
+          "size_kb": 3.2,
+          "sections": 15
+        },
+        {
+          "name": "function_index.json",
+          "status": "complete",
+          "size_kb": 8.9,
+          "functions_indexed": 20
+        },
+        {
+          "name": "dependencies.json",
+          "status": "complete",
+          "size_kb": 6.7,
+          "dependencies_mapped": 23
+        },
+        {
+          "name": "code_annotations.jsonl",
+          "status": "complete",
+          "size_kb": 4.1,
+          "annotations": 33
+        }
+      ]
+    },
+    "diagram_files": {
+      "total": 3,
+      "completed": 3,
+      "percentage": 100,
+      "files": [
+        {
+          "name": "system_overview.mermaid",
+          "status": "complete",
+          "type": "graph",
+          "nodes": 25,
+          "complexity": "high"
+        },
+        {
+          "name": "data_flow.mermaid",
+          "status": "complete",
+          "type": "sequence",
+          "participants": 7,
+          "complexity": "medium"
+        },
+        {
+          "name": "component_diagram.mermaid",
+          "status": "complete",
+          "type": "graph",
+          "nodes": 35,
+          "complexity": "high"
+        }
+      ]
+    },
+    "validation_files": {
+      "total": 2,
+      "completed": 2,
+      "percentage": 100,
+      "files": [
+        {
+          "name": "documentation_report.md",
+          "status": "complete",
+          "size_kb": 14.3
+        },
+        {
+          "name": "coverage_metrics.json",
+          "status": "complete",
+          "size_kb": 5.8
+        }
+      ]
+    }
+  },
+  "api_coverage": {
+    "total_endpoints": 3,
+    "documented_endpoints": 3,
+    "percentage": 100,
+    "endpoints": [
+      {
+        "path": "/api/itinerary/",
+        "method": "POST",
+        "documented": true,
+        "examples": true,
+        "error_handling": true
+      },
+      {
+        "path": "/api/history/",
+        "method": "GET",
+        "documented": true,
+        "examples": true,
+        "error_handling": true
+      },
+      {
+        "path": "/",
+        "method": "GET",
+        "documented": true,
+        "examples": false,
+        "error_handling": false
+      }
+    ]
+  },
+  "component_coverage": {
+    "frontend_components": {
+      "total": 9,
+      "documented": 8,
+      "percentage": 89,
+      "missing": [
+        "index.tsx (main entry point)"
+      ]
+    },
+    "backend_components": {
+      "total": 6,
+      "documented": 6,
+      "percentage": 100,
+      "missing": []
+    }
+  },
+  "function_coverage": {
+    "total_functions": 20,
+    "documented_functions": 19,
+    "percentage": 95,
+    "complexity_distribution": {
+      "low": 11,
+      "medium": 6,
+      "high": 3
+    },
+    "language_distribution": {
+      "python": 6,
+      "typescript": 14
+    },
+    "missing_documentation": [
+      "index.tsx main function"
+    ]
+  },
+  "quality_metrics": {
+    "clarity_score": 4.5,
+    "structure_score": 5.0,
+    "completeness_score": 4.5,
+    "machine_parseable_score": 5.0,
+    "contextual_score": 4.0,
+    "searchability_score": 5.0,
+    "average_score": 4.7
+  },
+  "security_assessment": {
+    "total_security_areas": 8,
+    "documented_areas": 7,
+    "percentage": 87.5,
+    "documented": [
+      "Authentication flow",
+      "Firebase integration",
+      "CORS configuration",
+      "API key management",
+      "Client-side security",
+      "Environment variables",
+      "Input validation"
+    ],
+    "missing": [
+      "Backend token validation"
+    ],
+    "vulnerabilities_identified": 3,
+    "mitigations_provided": 3
+  },
+  "performance_metrics": {
+    "documented_areas": [
+      "Database optimization",
+      "Frontend bundle size",
+      "API response times",
+      "PDF generation"
+    ],
+    "missing_areas": [
+      "Load testing",
+      "Caching strategies",
+      "Scalability planning"
+    ],
+    "percentage": 80
+  },
+  "ai_optimization": {
+    "structured_metadata_files": 4,
+    "machine_readable_formats": [
+      "JSON",
+      "YAML",
+      "JSONL",
+      "Mermaid"
+    ],
+    "cross_references": 45,
+    "searchable_indexes": 2,
+    "complexity_ratings": true,
+    "dependency_mapping": true,
+    "code_annotations": 33
+  },
+  "validation_results": {
+    "completeness_checks": {
+      "total": 6,
+      "passed": 6,
+      "percentage": 100
+    },
+    "quality_checks": {
+      "total": 6,
+      "passed": 6,
+      "percentage": 100
+    },
+    "technical_validation": {
+      "json_files_valid": true,
+      "yaml_files_valid": true,
+      "mermaid_syntax_valid": true,
+      "internal_links_functional": true,
+      "no_incomplete_sections": true
+    }
+  },
+  "recommendations": {
+    "high_priority": 3,
+    "medium_priority": 3,
+    "low_priority": 3,
+    "total_recommendations": 9
+  },
+  "file_statistics": {
+    "total_documentation_files": 13,
+    "total_size_kb": 100.2,
+    "average_file_size_kb": 7.7,
+    "largest_file": "ARCHITECTURE.md (18.7 KB)",
+    "smallest_file": "ai_context.yaml (3.2 KB)"
+  },
+  "generation_metadata": {
+    "generated_by": "AI Documentation Agent",
+    "generation_time_seconds": 45,
+    "total_lines_documented": 2847,
+    "total_words": 18432,
+    "documentation_language": "English",
+    "target_audience": "AI Systems and Developers"
+  }
+}

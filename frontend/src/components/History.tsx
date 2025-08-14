@@ -1,20 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Itinerary } from '../types';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useAuth } from '../contexts/AuthContext';
 import ReactMarkdown from 'react-markdown';
+import Map from './Map';
 
 const History: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, getIdToken } = useAuth();
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pdfLoading, setPdfLoading] = useState<number | null>(null);
   const [expandedItinerary, setExpandedItinerary] = useState<number | null>(null);
   const [modalItinerary, setModalItinerary] = useState<Itinerary | null>(null);
+  const [mapItinerary, setMapItinerary] = useState<Itinerary | null>(null);
 
-  const fetchItineraries = async () => {
+  /**
+   * Fetch user's itinerary history using Firebase authentication
+   * 
+   * This function:
+   * 1. Validates user authentication
+   * 2. Gets Firebase ID token for API authentication
+   * 3. Sends request with token in Authorization header
+   * 4. Removes user_email query parameter (handled by backend via token)
+   */
+  const fetchItineraries = useCallback(async () => {
     if (!currentUser?.email) {
       setError('You must be logged in to view your history');
       setLoading(false);
@@ -24,28 +35,72 @@ const History: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Fetching itineraries...');
-      const response = await fetch(`https://ai-travel-itinerary-planner.onrender.com/api/history/?user_email=${encodeURIComponent(currentUser.email)}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch itineraries: ${response.status} ${response.statusText}`);
+      // Fetching itineraries...
+      
+      // Get Firebase ID token for authentication
+      const idToken = await getIdToken();
+      if (!idToken) {
+        setError('Authentication failed. Please try logging in again.');
+        setLoading(false);
+        return;
       }
+
+      // Make API request with Firebase token in Authorization header
+      // Remove user_email query parameter - backend gets this from Firebase token
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/history/`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${idToken}`,
+            'Content-Type': 'application/json'
+          },
+          // Add timeout for the request
+          signal: AbortSignal.timeout(30000) // 30 second timeout
+        }
+      );
+      
+      if (!response.ok) {
+        // Handle different HTTP status codes
+        if (response.status === 401) {
+          throw new Error('Authentication failed. Please log in again.');
+        } else if (response.status === 403) {
+          throw new Error('Access denied. Please check your permissions.');
+        } else if (response.status === 500) {
+          throw new Error('Server error. Please try again later.');
+        } else {
+          throw new Error(`Failed to fetch itineraries: ${response.status} ${response.statusText}`);
+        }
+      }
+      
       const data = await response.json();
-      console.log('Fetched itineraries:', data);
+      // Successfully fetched itineraries
+      
       if (!Array.isArray(data)) {
         throw new Error('Invalid response format: expected an array');
       }
+      
       setItineraries(data);
     } catch (err) {
       console.error('Error fetching itineraries:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred while fetching itineraries');
+      
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') {
+          setError('Request timeout. Please try again.');
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError('An error occurred while fetching itineraries');
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentUser, getIdToken]);
 
   useEffect(() => {
     fetchItineraries();
-  }, [currentUser]);
+  }, [currentUser, fetchItineraries]);
 
   // Add a retry mechanism
   const retryFetch = () => {
@@ -87,7 +142,7 @@ const History: React.FC = () => {
 
   const parseItinerary = (text: string) => {
     if (!text || text.trim() === '') {
-      console.log('No text to parse:', text);
+      // No text to parse
       return [];
     }
     
@@ -163,7 +218,9 @@ const History: React.FC = () => {
           const dayNumber = parseInt(daySections[i]);
           const section = daySections[i + 1];
           
-          if (!section || !section.trim()) continue;
+          if (!section || !section.trim()) {
+            continue;
+          }
           
           // Split the section into lines and filter out empty lines
           const lines = section.split('\n').filter(line => line.trim());
@@ -240,7 +297,9 @@ const History: React.FC = () => {
     setPdfLoading(id);
     try {
       const element = document.getElementById(`itinerary-card-${id}`);
-      if (!element) return;
+      if (!element) {
+          return;
+        }
       
       const canvas = await html2canvas(element, {
         scale: 2,
@@ -268,7 +327,9 @@ const History: React.FC = () => {
         const pageHeight = pdf.internal.pageSize.getHeight();
         
         for (let i = 0; i < pages; i++) {
-          if (i > 0) pdf.addPage();
+          if (i > 0) {
+          pdf.addPage();
+        }
           pdf.addImage(
             imgData, 
             'PNG', 
@@ -519,7 +580,7 @@ const History: React.FC = () => {
             const isExpanded = expandedItinerary === itinerary.id;
             const isPdfLoading = pdfLoading === itinerary.id;
             
-            console.log(`Parsed itinerary for ${itinerary.destination}:`, parsedItinerary); // Debug log
+            // Successfully parsed itinerary
             
             return (
               <div
@@ -625,28 +686,41 @@ const History: React.FC = () => {
                     </button>
                   </div>
                   
-                  <button
-                    onClick={() => exportToPDF(itinerary, itinerary.id)}
-                    disabled={isPdfLoading}
-                    className="bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-lg flex items-center transition-all duration-200 disabled:opacity-50 font-medium"
-                  >
-                    {isPdfLoading ? (
-                      <>
-                        <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Exporting...
-                      </>
-                    ) : (
-                      <>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Export PDF
-                      </>
-                    )}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setMapItinerary(itinerary)}
+                      className="bg-green-600/10 hover:bg-green-600/20 text-green-400 px-4 py-2 rounded-lg flex items-center transition-all duration-200 font-medium"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      View Map
+                    </button>
+                    
+                    <button
+                      onClick={() => exportToPDF(itinerary, itinerary.id)}
+                      disabled={isPdfLoading}
+                      className="bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-lg flex items-center transition-all duration-200 disabled:opacity-50 font-medium"
+                    >
+                      {isPdfLoading ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Exporting...
+                        </>
+                      ) : (
+                        <>
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          Export PDF
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             );
@@ -731,6 +805,36 @@ const History: React.FC = () => {
                   </>
                 )}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Map Modal */}
+      {mapItinerary && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setMapItinerary(null)}></div>
+          <div className="relative bg-dark border border-dark-light rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-dark-light">
+              <h3 className="text-xl font-semibold text-white">
+                📍 Map View: {mapItinerary.destination}
+              </h3>
+              <button
+                onClick={() => setMapItinerary(null)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="p-6">
+              <Map
+                itinerary={mapItinerary}
+                height="500px"
+                zoom={10}
+                showControls={true}
+              />
             </div>
           </div>
         </div>

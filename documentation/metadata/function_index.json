@@ -1,0 +1,331 @@
+{
+  "functions": [
+    {
+      "name": "ItineraryView.post",
+      "file": "backend/travel_app/views.py",
+      "line": 18,
+      "signature": "def post(self, request)",
+      "description": "Creates a new travel itinerary by calling GROQ AI API and saving to database",
+      "tags": ["api", "ai", "create", "itinerary", "groq"],
+      "complexity": "medium",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "request",
+          "type": "Request",
+          "description": "HTTP request containing destination, days, and user_email"
+        }
+      ],
+      "returns": "Response with created itinerary or error",
+      "exceptions": ["API errors", "Validation errors", "Network errors"]
+    },
+    {
+      "name": "HistoryView.get",
+      "file": "backend/travel_app/views.py",
+      "line": 89,
+      "signature": "def get(self, request)",
+      "description": "Retrieves all itineraries for a specific user based on email",
+      "tags": ["api", "history", "retrieve", "user"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "request",
+          "type": "Request",
+          "description": "HTTP request with user_email query parameter"
+        }
+      ],
+      "returns": "List of user's itineraries",
+      "exceptions": ["Missing user_email parameter"]
+    },
+    {
+      "name": "index",
+      "file": "backend/travel_app/views.py",
+      "line": 12,
+      "signature": "def index(request)",
+      "description": "Renders the main index template",
+      "tags": ["view", "template", "index"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "request",
+          "type": "Request",
+          "description": "HTTP request object"
+        }
+      ],
+      "returns": "Rendered HTML template",
+      "exceptions": []
+    },
+    {
+      "name": "Itinerary.__str__",
+      "file": "backend/travel_app/models.py",
+      "line": 12,
+      "signature": "def __str__(self)",
+      "description": "Returns string representation of itinerary object",
+      "tags": ["model", "string", "representation"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "Formatted string with destination, days, and date",
+      "exceptions": []
+    },
+    {
+      "name": "App",
+      "file": "frontend/src/App.tsx",
+      "line": 24,
+      "signature": "function App()",
+      "description": "Main React application component with routing and authentication",
+      "tags": ["react", "component", "main", "routing", "auth"],
+      "complexity": "medium",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "JSX.Element",
+      "exceptions": []
+    },
+    {
+      "name": "ProtectedRoute",
+      "file": "frontend/src/App.tsx",
+      "line": 10,
+      "signature": "const ProtectedRoute = ({ children }: { children: React.ReactNode })",
+      "description": "Higher-order component that protects routes requiring authentication",
+      "tags": ["react", "component", "auth", "protection", "hoc"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Child components to render if authenticated"
+        }
+      ],
+      "returns": "JSX.Element or Navigate component",
+      "exceptions": []
+    },
+    {
+      "name": "ItineraryForm",
+      "file": "frontend/src/components/ItineraryForm.tsx",
+      "line": 9,
+      "signature": "const ItineraryForm: React.FC = ()",
+      "description": "Main form component for creating travel itineraries",
+      "tags": ["react", "component", "form", "itinerary", "create"],
+      "complexity": "high",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "JSX.Element",
+      "exceptions": ["API errors", "Authentication errors"]
+    },
+    {
+      "name": "handleSubmit",
+      "file": "frontend/src/components/ItineraryForm.tsx",
+      "line": 23,
+      "signature": "const handleSubmit = async (e: React.FormEvent)",
+      "description": "Handles form submission for itinerary creation",
+      "tags": ["form", "submit", "async", "api"],
+      "complexity": "medium",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "e",
+          "type": "React.FormEvent",
+          "description": "Form submission event"
+        }
+      ],
+      "returns": "Promise<void>",
+      "exceptions": ["Network errors", "API errors"]
+    },
+    {
+      "name": "exportToPDF",
+      "file": "frontend/src/components/ItineraryForm.tsx",
+      "line": 44,
+      "signature": "const exportToPDF = async ()",
+      "description": "Converts itinerary content to PDF using html2canvas and jsPDF",
+      "tags": ["pdf", "export", "async", "canvas"],
+      "complexity": "high",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "Promise<void>",
+      "exceptions": ["Canvas rendering errors", "PDF generation errors"]
+    },
+    {
+      "name": "History",
+      "file": "frontend/src/components/History.tsx",
+      "line": 8,
+      "signature": "const History: React.FC = ()",
+      "description": "Component for displaying user's itinerary history",
+      "tags": ["react", "component", "history", "list"],
+      "complexity": "high",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "JSX.Element",
+      "exceptions": ["API errors", "Authentication errors"]
+    },
+    {
+      "name": "fetchItineraries",
+      "file": "frontend/src/components/History.tsx",
+      "line": 17,
+      "signature": "const fetchItineraries = async ()",
+      "description": "Fetches user's itinerary history from backend API",
+      "tags": ["fetch", "api", "async", "history"],
+      "complexity": "medium",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "Promise<void>",
+      "exceptions": ["Network errors", "API errors", "Authentication errors"]
+    },
+    {
+      "name": "AuthProvider",
+      "file": "frontend/src/contexts/AuthContext.tsx",
+      "line": 29,
+      "signature": "export function AuthProvider({ children }: { children: React.ReactNode })",
+      "description": "Context provider for authentication state and methods",
+      "tags": ["react", "context", "auth", "provider"],
+      "complexity": "medium",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "Child components that need access to auth context"
+        }
+      ],
+      "returns": "JSX.Element",
+      "exceptions": ["Firebase errors"]
+    },
+    {
+      "name": "useAuth",
+      "file": "frontend/src/contexts/AuthContext.tsx",
+      "line": 22,
+      "signature": "export function useAuth()",
+      "description": "Custom hook for accessing authentication context",
+      "tags": ["react", "hook", "auth", "context"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "AuthContextType",
+      "exceptions": ["Context not found error"]
+    },
+    {
+      "name": "login",
+      "file": "frontend/src/contexts/AuthContext.tsx",
+      "line": 37,
+      "signature": "function login(email: string, password: string)",
+      "description": "Authenticates user with email and password",
+      "tags": ["auth", "login", "firebase"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "email",
+          "type": "string",
+          "description": "User's email address"
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "description": "User's password"
+        }
+      ],
+      "returns": "Promise<UserCredential>",
+      "exceptions": ["Firebase auth errors"]
+    },
+    {
+      "name": "signup",
+      "file": "frontend/src/contexts/AuthContext.tsx",
+      "line": 33,
+      "signature": "function signup(email: string, password: string)",
+      "description": "Creates new user account with email and password",
+      "tags": ["auth", "signup", "firebase", "registration"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [
+        {
+          "name": "email",
+          "type": "string",
+          "description": "User's email address"
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "description": "User's password"
+        }
+      ],
+      "returns": "Promise<UserCredential>",
+      "exceptions": ["Firebase auth errors", "Email already in use"]
+    },
+    {
+      "name": "logout",
+      "file": "frontend/src/contexts/AuthContext.tsx",
+      "line": 41,
+      "signature": "function logout()",
+      "description": "Signs out the current user",
+      "tags": ["auth", "logout", "firebase"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "Promise<void>",
+      "exceptions": ["Firebase auth errors"]
+    },
+    {
+      "name": "signInWithGoogle",
+      "file": "frontend/src/contexts/AuthContext.tsx",
+      "line": 45,
+      "signature": "async function signInWithGoogle()",
+      "description": "Authenticates user with Google OAuth",
+      "tags": ["auth", "google", "oauth", "firebase"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "Promise<UserCredential>",
+      "exceptions": ["Google auth errors", "Popup blocked"]
+    },
+    {
+      "name": "ItinerarySerializer",
+      "file": "backend/travel_app/serializers.py",
+      "line": 4,
+      "signature": "class ItinerarySerializer(serializers.ModelSerializer)",
+      "description": "Serializer for Itinerary model API responses",
+      "tags": ["serializer", "api", "model", "django"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "Serialized itinerary data",
+      "exceptions": []
+    },
+    {
+      "name": "ItineraryCreateSerializer",
+      "file": "backend/travel_app/serializers.py",
+      "line": 9,
+      "signature": "class ItineraryCreateSerializer(serializers.Serializer)",
+      "description": "Serializer for validating itinerary creation requests",
+      "tags": ["serializer", "validation", "create", "django"],
+      "complexity": "low",
+      "test_coverage": false,
+      "parameters": [],
+      "returns": "Validated request data",
+      "exceptions": ["Validation errors"]
+    }
+  ],
+  "metadata": {
+    "total_functions": 20,
+    "coverage_percentage": 0,
+    "complexity_distribution": {
+      "low": 11,
+      "medium": 6,
+      "high": 3
+    },
+    "language_distribution": {
+      "python": 6,
+      "typescript": 14
+    },
+    "component_distribution": {
+      "backend_views": 3,
+      "backend_models": 1,
+      "backend_serializers": 2,
+      "frontend_components": 8,
+      "frontend_contexts": 6
+    },
+    "last_updated": "2024-01-15T10:00:00Z",
+    "generated_by": "AI Documentation Agent"
+  }
+}

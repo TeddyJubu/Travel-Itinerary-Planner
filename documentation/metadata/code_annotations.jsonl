@@ -1,0 +1,33 @@
+{"file": "backend/travel_app/views.py", "line": 18, "annotation": "Main API endpoint for itinerary generation - handles user input validation, AI API calls, and database storage", "complexity": "high"}
+{"file": "backend/travel_app/views.py", "line": 25, "annotation": "Validates incoming request data using ItineraryCreateSerializer to ensure required fields are present", "complexity": "medium"}
+{"file": "backend/travel_app/views.py", "line": 32, "annotation": "Constructs AI prompt with user destination and days - critical for quality of AI response", "complexity": "medium"}
+{"file": "backend/travel_app/views.py", "line": 42, "annotation": "GROQ API call using OpenAI client - main AI integration point, requires API key and proper error handling", "complexity": "high"}
+{"file": "backend/travel_app/views.py", "line": 60, "annotation": "Extracts AI response content and saves to database - potential point of failure if AI response format changes", "complexity": "medium"}
+{"file": "backend/travel_app/views.py", "line": 89, "annotation": "History retrieval endpoint - filters itineraries by user email, no authentication validation on backend", "complexity": "medium"}
+{"file": "backend/travel_app/models.py", "line": 4, "annotation": "Core data model for storing travel itineraries - uses TextField for AI-generated content", "complexity": "low"}
+{"file": "backend/travel_app/models.py", "line": 9, "annotation": "User identification via email field - no foreign key relationship to User model, potential data integrity issue", "complexity": "medium"}
+{"file": "backend/travel_project/settings.py", "line": 45, "annotation": "CORS configuration allows specific origins - critical for frontend-backend communication security", "complexity": "medium"}
+{"file": "backend/travel_project/settings.py", "line": 80, "annotation": "Database configuration supports both SQLite (development) and PostgreSQL (production)", "complexity": "low"}
+{"file": "frontend/src/App.tsx", "line": 10, "annotation": "ProtectedRoute component ensures authentication before accessing protected pages - client-side only protection", "complexity": "medium"}
+{"file": "frontend/src/App.tsx", "line": 24, "annotation": "Main app routing structure with authentication context provider wrapping all components", "complexity": "medium"}
+{"file": "frontend/src/components/ItineraryForm.tsx", "line": 23, "annotation": "Form submission handler - makes API call to backend and handles loading states", "complexity": "high"}
+{"file": "frontend/src/components/ItineraryForm.tsx", "line": 35, "annotation": "API call to backend itinerary endpoint - hardcoded production URL, should use environment variable", "complexity": "medium"}
+{"file": "frontend/src/components/ItineraryForm.tsx", "line": 44, "annotation": "PDF export functionality using html2canvas and jsPDF - complex DOM manipulation and file generation", "complexity": "high"}
+{"file": "frontend/src/components/ItineraryForm.tsx", "line": 50, "annotation": "Canvas creation from DOM element - may fail with complex layouts or missing elements", "complexity": "high"}
+{"file": "frontend/src/components/ItineraryForm.tsx", "line": 55, "annotation": "PDF generation and download - handles canvas to PDF conversion with proper sizing", "complexity": "medium"}
+{"file": "frontend/src/components/History.tsx", "line": 17, "annotation": "Fetches user's itinerary history from backend API using authenticated user's email", "complexity": "medium"}
+{"file": "frontend/src/components/History.tsx", "line": 25, "annotation": "API call to history endpoint with user email parameter - relies on client-side authentication", "complexity": "medium"}
+{"file": "frontend/src/contexts/AuthContext.tsx", "line": 29, "annotation": "Authentication context provider - manages user state and auth methods for entire app", "complexity": "high"}
+{"file": "frontend/src/contexts/AuthContext.tsx", "line": 33, "annotation": "User signup with Firebase - creates new user account with email/password", "complexity": "low"}
+{"file": "frontend/src/contexts/AuthContext.tsx", "line": 37, "annotation": "User login with Firebase - authenticates existing user with email/password", "complexity": "low"}
+{"file": "frontend/src/contexts/AuthContext.tsx", "line": 45, "annotation": "Google OAuth integration - provides alternative authentication method", "complexity": "medium"}
+{"file": "frontend/src/contexts/AuthContext.tsx", "line": 54, "annotation": "Firebase auth state listener - automatically updates user state on auth changes", "complexity": "medium"}
+{"file": "frontend/src/firebase.ts", "line": 4, "annotation": "Firebase configuration object - contains sensitive project identifiers, should be environment-based", "complexity": "low"}
+{"file": "docker-compose.yml", "line": 15, "annotation": "Frontend service configuration - exposes port 3000 and depends on backend service", "complexity": "low"}
+{"file": "docker-compose.yml", "line": 25, "annotation": "Backend service configuration with environment variables for database and API keys", "complexity": "medium"}
+{"file": "docker-compose.yml", "line": 40, "annotation": "PostgreSQL database service with persistent volume for data storage", "complexity": "low"}
+{"file": "backend/Dockerfile", "line": 8, "annotation": "Installs system dependencies required for PostgreSQL adapter (psycopg2)", "complexity": "low"}
+{"file": "backend/Dockerfile", "line": 15, "annotation": "Django static files collection for production deployment", "complexity": "low"}
+{"file": "backend/Dockerfile", "line": 18, "annotation": "Gunicorn WSGI server configuration for production deployment", "complexity": "medium"}
+{"file": "frontend/Dockerfile", "line": 8, "annotation": "Node.js dependencies installation in Docker container", "complexity": "low"}
+{"file": "frontend/Dockerfile", "line": 14, "annotation": "React development server startup command", "complexity": "low"}

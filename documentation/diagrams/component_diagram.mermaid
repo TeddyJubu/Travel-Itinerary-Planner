@@ -1,0 +1,130 @@
+graph TB
+    %% Frontend Components
+    subgraph "Frontend Application (React + TypeScript)"
+        subgraph "Core Components"
+            App["📱 App.tsx<br/>Main Application<br/>• Routing Setup<br/>• Auth Context Provider"]
+            ProtectedRoute["🛡️ ProtectedRoute<br/>Route Protection<br/>• Auth Validation<br/>• Redirect Logic"]
+        end
+
+        subgraph "Page Components"
+            ItineraryForm["📝 ItineraryForm.tsx<br/>Main Form<br/>• Input Validation<br/>• API Integration<br/>• PDF Export"]
+            History["📚 History.tsx<br/>History Display<br/>• Data Fetching<br/>• List Rendering<br/>• PDF Export"]
+            Login["🔑 Login.tsx<br/>Login Form<br/>• Email/Password<br/>• Form Validation"]
+            Signup["📋 Signup.tsx<br/>Registration<br/>• Account Creation<br/>• Validation"]
+        end
+
+        subgraph "Context & Services"
+            AuthContext["🔐 AuthContext.tsx<br/>Auth Management<br/>• User State<br/>• Auth Methods<br/>• Firebase Integration"]
+            Firebase["🔥 firebase.ts<br/>Firebase Config<br/>• Auth Setup<br/>• Service Init"]
+        end
+
+        subgraph "Utilities"
+            Types["📋 types.ts<br/>Type Definitions<br/>• Interfaces<br/>• Data Models"]
+            PDF["📄 PDF Utils<br/>Export Functions<br/>• html2canvas<br/>• jsPDF"]
+        end
+    end
+
+    %% Backend Components
+    subgraph "Backend API (Django + DRF)"
+        subgraph "URL Configuration"
+            MainUrls["🛣️ travel_project/urls.py<br/>Main URL Config<br/>• App Routing<br/>• Admin URLs"]
+            AppUrls["🔗 travel_app/urls.py<br/>App URLs<br/>• API Endpoints<br/>• View Mapping"]
+        end
+
+        subgraph "Views & Logic"
+            ItineraryView["🎯 ItineraryView<br/>POST /api/itinerary/<br/>• Input Validation<br/>• AI API Call<br/>• Data Storage"]
+            HistoryView["📖 HistoryView<br/>GET /api/history/<br/>• User Filtering<br/>• Data Retrieval"]
+            IndexView["🏠 index<br/>Template View<br/>• Basic Rendering"]
+        end
+
+        subgraph "Data Layer"
+            Models["📊 models.py<br/>Data Models<br/>• Itinerary Model<br/>• Field Definitions"]
+            Serializers["🔄 serializers.py<br/>Data Serialization<br/>• API Serializers<br/>• Validation"]
+        end
+
+        subgraph "Configuration"
+            Settings["⚙️ settings.py<br/>Django Config<br/>• Database Setup<br/>• CORS Config<br/>• App Registration"]
+            Apps["📦 apps.py<br/>App Config<br/>• App Definition"]
+        end
+    end
+
+    %% External Services
+    subgraph "External Services"
+        FirebaseAuth["🔥 Firebase Authentication<br/>• User Management<br/>• OAuth Providers<br/>• Token Validation"]
+        GroqAPI["🤖 GROQ AI API<br/>• Itinerary Generation<br/>• Natural Language Processing<br/>• Travel Recommendations"]
+        RenderHost["☁️ Render Hosting<br/>• Backend Deployment<br/>• Environment Management<br/>• Scaling"]
+    end
+
+    %% Database
+    subgraph "Data Storage"
+        PostgreSQLProd[("🐘 PostgreSQL<br/>Production Database<br/>• Persistent Storage<br/>• ACID Compliance")]
+        SQLiteDev[("💾 SQLite<br/>Development Database<br/>• Local Storage<br/>• Quick Setup")]
+    end
+
+    %% Infrastructure
+    subgraph "Infrastructure & Deployment"
+        DockerCompose["📦 docker-compose.yml<br/>Service Orchestration<br/>• Multi-container Setup<br/>• Environment Config"]
+        FrontendDocker["🐳 Frontend Dockerfile<br/>• Node.js Runtime<br/>• Build Process<br/>• Port 3000"]
+        BackendDocker["🐳 Backend Dockerfile<br/>• Python Runtime<br/>• Dependencies<br/>• Gunicorn Server"]
+    end
+
+    %% Component Relationships
+    App --> ProtectedRoute
+    App --> ItineraryForm
+    App --> History
+    App --> Login
+    App --> Signup
+    
+    ProtectedRoute --> AuthContext
+    ItineraryForm --> AuthContext
+    ItineraryForm --> Types
+    ItineraryForm --> PDF
+    History --> AuthContext
+    History --> Types
+    History --> PDF
+    Login --> AuthContext
+    Signup --> AuthContext
+    
+    AuthContext --> Firebase
+    Firebase --> FirebaseAuth
+    
+    %% API Connections
+    ItineraryForm -."HTTP POST".-> ItineraryView
+    History -."HTTP GET".-> HistoryView
+    
+    %% Backend Internal
+    MainUrls --> AppUrls
+    AppUrls --> ItineraryView
+    AppUrls --> HistoryView
+    AppUrls --> IndexView
+    
+    ItineraryView --> Serializers
+    ItineraryView --> Models
+    HistoryView --> Serializers
+    HistoryView --> Models
+    
+    Models --> PostgreSQLProd
+    Models --> SQLiteDev
+    
+    %% External API
+    ItineraryView -."API Call".-> GroqAPI
+    
+    %% Infrastructure
+    DockerCompose --> FrontendDocker
+    DockerCompose --> BackendDocker
+    DockerCompose --> PostgreSQLProd
+    
+    BackendDocker --> RenderHost
+    
+    %% Styling
+    classDef frontend fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef backend fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef external fill:#fff8e1,stroke:#f57c00,stroke-width:2px
+    classDef database fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef infrastructure fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    
+    class App,ProtectedRoute,ItineraryForm,History,Login,Signup,AuthContext,Firebase,Types,PDF frontend
+    class MainUrls,AppUrls,ItineraryView,HistoryView,IndexView,Models,Serializers,Settings,Apps backend
+    class FirebaseAuth,GroqAPI,RenderHost external
+    class PostgreSQLProd,SQLiteDev database
+    class DockerCompose,FrontendDocker,BackendDocker infrastructure
