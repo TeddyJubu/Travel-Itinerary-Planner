@@ -26,26 +26,37 @@ const MapView: React.FC = () => {
   });
 
   /**
-   * Simple geocoding function using Nominatim API
+   * Simple geocoding function using Google Maps API
+   * This is a fallback - the main geocoding is now handled in the Map component
    */
   const geocodeLocation = useCallback(async (locationName: string): Promise<{ lat: number; lng: number } | null> => {
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationName)}&limit=1`
-      );
-      const data = await response.json();
-      
-      if (data && data.length > 0) {
-        return {
-          lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon)
-        };
+      if (!(window as any).google) {
+        console.warn('Google Maps not loaded yet');
+        return null;
       }
+
+      const google = (window as any).google;
+      const geocoder = new google.maps.Geocoder();
+      
+      return new Promise((resolve) => {
+        geocoder.geocode({ address: locationName }, (results: any, status: any) => {
+          if (status === 'OK' && results && results[0]) {
+            const location = results[0].geometry.location;
+            resolve({
+              lat: location.lat(),
+              lng: location.lng()
+            });
+          } else {
+            console.warn(`Geocoding failed for ${locationName}: ${status}`);
+            resolve(null);
+          }
+        });
+      });
     } catch (error) {
-      // Geocoding error logged for debugging
+      console.error('Geocoding error:', error);
+      return null;
     }
-    
-    return null;
   }, []);
 
   /**

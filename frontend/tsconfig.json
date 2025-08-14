@@ -19,7 +19,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["node", "react", "react-dom", "framer-motion"]
+    "types": ["node", "react", "react-dom", "framer-motion", "google.maps"]
   },
   "include": [
     "src"

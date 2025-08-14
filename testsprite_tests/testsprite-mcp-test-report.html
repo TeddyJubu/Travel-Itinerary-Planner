@@ -1,0 +1,472 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Markdown Preview</title>
+      <style>
+        body {
+          font-family: sans-serif;
+          padding: 40px;
+          line-height: 1.6;
+          background: #fdfdfd;
+          color: #333;
+        }
+        pre {
+          background: #f4f4f4;
+          padding: 10px;
+          border-radius: 5px;
+          overflow-x: auto;
+        }
+        code {
+          font-family: monospace;
+          background: #eee;
+          padding: 2px 4px;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          margin-top: 20px;
+        }
+        th, td {
+          border: 1px solid #ccc;
+          padding: 8px 12px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+          font-weight: bold;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>TestSprite AI Testing Report (MCP)</h1>
+<hr>
+<h2>1️⃣ Document Metadata</h2>
+<ul>
+<li><strong>Project Name:</strong> Travel-Itinerary-Planner</li>
+<li><strong>Version:</strong> 0.1.0</li>
+<li><strong>Date:</strong> 2025-08-15</li>
+<li><strong>Prepared by:</strong> TestSprite AI Team</li>
+</ul>
+<hr>
+<h2>2️⃣ Requirement Validation Summary</h2>
+<h3>Requirement: User Authentication System</h3>
+<ul>
+<li><strong>Description:</strong> Firebase-based user authentication with email/password and Google OAuth support, including protected routes and session management.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC001</li>
+<li><strong>Test Name:</strong> User signup with valid email and password</li>
+<li><strong>Test Code:</strong> <a href="./TC001_User_signup_with_valid_email_and_password.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/7d0a342a-89aa-462a-8441-347608bf0e7d">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> The test failed due to a timeout, indicating that the user signup process is not completing within the expected time frame possibly due to frontend performance issues, hanging requests, or UI blocking elements. Investigate frontend code for infinite loops, blocked requests, or slow API call responses during signup.</li>
+</ul>
+<hr>
+<h4>Test 2</h4>
+<ul>
+<li><strong>Test ID:</strong> TC002</li>
+<li><strong>Test Name:</strong> User signup with invalid email format</li>
+<li><strong>Test Code:</strong> <a href="./TC002_User_signup_with_invalid_email_format.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/14633e50-c88a-4258-a903-f55e2450321d">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Medium</li>
+<li><strong>Analysis / Findings:</strong> Test timed out, suggesting the invalid email validation and error message display is not triggered or the UI is stuck. The system likely fails to detect invalid email input or does not correctly show feedback. Review the email validation logic and error display mechanism for responsiveness.</li>
+</ul>
+<hr>
+<h4>Test 3</h4>
+<ul>
+<li><strong>Test ID:</strong> TC003</li>
+<li><strong>Test Name:</strong> User login with correct email/password credentials</li>
+<li><strong>Test Code:</strong> <a href="./TC003_User_login_with_correct_credentials.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/1ba856ce-ca4c-489f-b1c0-0926ade1a36d">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout failure indicates the login process with correct credentials does not complete, likely due to frontend API request issues or UI not updating after successful login. Analyze frontend login flow for API call failures or delays, improper state management, and UI blocking.</li>
+</ul>
+<hr>
+<h4>Test 4</h4>
+<ul>
+<li><strong>Test ID:</strong> TC004</li>
+<li><strong>Test Name:</strong> User login with incorrect password</li>
+<li><strong>Test Code:</strong> <a href="./TC004_User_login_with_incorrect_password.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/1fb4e9c0-8534-419d-be62-a9fd8634d2a8">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Medium</li>
+<li><strong>Analysis / Findings:</strong> Timeout shows failure in handling login attempts with incorrect password, likely no feedback sent or UI frozen during validation error display. Fix error feedback mechanism for failed login attempts.</li>
+</ul>
+<hr>
+<h4>Test 5</h4>
+<ul>
+<li><strong>Test ID:</strong> TC005</li>
+<li><strong>Test Name:</strong> User login via Google OAuth</li>
+<li><strong>Test Code:</strong> <a href="./TC005_User_login_via_Google_OAuth.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/1192806a-4757-4e8c-99b5-7f98d924e867">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout indicates issues with the Google OAuth login flow, possibly due to frontend integration errors, incomplete redirects, or OAuth token handling failures. Debug OAuth flow, verify redirect URIs, token exchange, and state management.</li>
+</ul>
+<hr>
+<h4>Test 6</h4>
+<ul>
+<li><strong>Test ID:</strong> TC006</li>
+<li><strong>Test Name:</strong> Access protected route without authentication</li>
+<li><strong>Test Code:</strong> <a href="./TC006_Access_protected_route_without_authentication.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/7c6e9d26-16cc-41f2-bf46-e694fb56f3f3">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timed out while checking protected route access without authentication implies frontend routing guards or redirects are not functioning correctly. Implement or fix authentication guard logic that blocks unauthenticated access and redirects users to login promptly.</li>
+</ul>
+<hr>
+<h3>Requirement: AI Itinerary Generator</h3>
+<ul>
+<li><strong>Description:</strong> Main form component for creating personalized travel itineraries using GROQ AI API with destination and duration inputs.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC007</li>
+<li><strong>Test Name:</strong> Generate itinerary with valid destination and duration</li>
+<li><strong>Test Code:</strong> <a href="./TC007_Generate_itinerary_with_valid_inputs.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/7c5ae801-e292-4db0-ab21-6739f4456492">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout suggests the AI itinerary generator frontend component does not complete rendering or fails to receive data, indicating improper API calls or response handling. Validate frontend communication with AI backend service, handle loading and error states, and optimize async data flow for responsiveness.</li>
+</ul>
+<hr>
+<h4>Test 2</h4>
+<ul>
+<li><strong>Test ID:</strong> TC008</li>
+<li><strong>Test Name:</strong> Generate itinerary with invalid duration input</li>
+<li><strong>Test Code:</strong> <a href="./TC008_Generate_itinerary_with_invalid_duration.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/57e8ec9a-8b16-4a56-ac99-5968303bfb91">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Medium</li>
+<li><strong>Analysis / Findings:</strong> Timeout implies input validation for invalid duration is not executed or handled properly on frontend, leading to blocked or unresponsive UI. Implement robust front-end validation for duration input, including type and range checks with immediate user feedback.</li>
+</ul>
+<hr>
+<h4>Test 3</h4>
+<ul>
+<li><strong>Test ID:</strong> TC020</li>
+<li><strong>Test Name:</strong> Performance: AI itinerary generation response time</li>
+<li><strong>Test Code:</strong> <a href="./TC020_Performance_AI_itinerary_generation.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/7fe2bfaf-8928-4c84-9210-23251a86b282">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout indicates that AI itinerary generation is not meeting acceptable performance benchmarks, likely from inefficient frontend or backend processing. Profile and optimize AI itinerary generation and frontend rendering pipelines.</li>
+</ul>
+<hr>
+<h3>Requirement: Itinerary History Management</h3>
+<ul>
+<li><strong>Description:</strong> User-specific itinerary viewing, management, and retrieval system with CRUD operations.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC009</li>
+<li><strong>Test Name:</strong> View itinerary history for authenticated user</li>
+<li><strong>Test Code:</strong> <a href="./TC009_View_itinerary_history.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/d5cd3b51-4b73-4513-9db5-d1d596332713">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout indicates failure to retrieve and display user's itinerary history, likely a broken API call or frontend rendering issue. Check API integration for fetching historical data and the UI list rendering logic.</li>
+</ul>
+<hr>
+<h4>Test 2</h4>
+<ul>
+<li><strong>Test ID:</strong> TC010</li>
+<li><strong>Test Name:</strong> Edit existing itinerary and save changes</li>
+<li><strong>Test Code:</strong> <a href="./TC010_Edit_existing_itinerary.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/267e8309-ad97-462b-872f-9378159c3080">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout suggests the edit and save functionality UI or API call is not completing, impacting persistence of changes. Debug save operation, verify form submission and backend persistence.</li>
+</ul>
+<hr>
+<h4>Test 3</h4>
+<ul>
+<li><strong>Test ID:</strong> TC011</li>
+<li><strong>Test Name:</strong> Delete an itinerary from history</li>
+<li><strong>Test Code:</strong> <a href="./TC011_Delete_itinerary_from_history.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/d4c61863-ecba-44cc-acb1-8b6fd75b3395">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout indicates the delete operation is not triggering successfully or the UI does not update to reflect deleted records. Validate delete API integration and UI refresh logic.</li>
+</ul>
+<hr>
+<h3>Requirement: Interactive Map Integration</h3>
+<ul>
+<li><strong>Description:</strong> Google Maps integration for displaying travel destinations, locations extraction from itineraries, and interactive map visualization.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC012</li>
+<li><strong>Test Name:</strong> Display itinerary locations on interactive map</li>
+<li><strong>Test Code:</strong> <a href="./TC012_Display_locations_on_map.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/c9e1a159-c1a9-4564-b481-535ccb523c04">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Medium</li>
+<li><strong>Analysis / Findings:</strong> Timeout suggests Google Maps component is not rendering or fetching location data correctly from itinerary details. Ensure geocoding and map rendering logic function asynchronously and handle errors gracefully.</li>
+</ul>
+<hr>
+<h3>Requirement: PDF Export Functionality</h3>
+<ul>
+<li><strong>Description:</strong> HTML-to-PDF conversion system for exporting and sharing itineraries using HTML2Canvas and jsPDF.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC013</li>
+<li><strong>Test Name:</strong> Export itinerary as PDF</li>
+<li><strong>Test Code:</strong> <a href="./TC013_Export_itinerary_as_PDF.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/8b6e34d7-a3e0-4b2b-b719-4518b51620a7">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Medium</li>
+<li><strong>Analysis / Findings:</strong> Timeout implies export to PDF process in the frontend is not completing, possibly due to processing or generation delays or failures. Review PDF generation logic, optimize processing, and add progress indicators.</li>
+</ul>
+<hr>
+<h3>Requirement: REST API Backend</h3>
+<ul>
+<li><strong>Description:</strong> Django REST Framework API providing endpoints for itinerary CRUD operations, user management, and AI integration.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC014</li>
+<li><strong>Test Name:</strong> API rejects invalid itinerary creation data</li>
+<li><strong>Test Code:</strong> <a href="./TC014_API_rejects_invalid_data.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/82c96295-a14b-4b40-955c-7b0acb4600bd">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout during backend API validation test suggests the system is not validating or rejecting malformed itinerary creation requests as expected, possibly frontend backend communication or API implementation issue. Review backend validation logic for itinerary creation.</li>
+</ul>
+<hr>
+<h3>Requirement: Responsive UI Components</h3>
+<ul>
+<li><strong>Description:</strong> TailwindCSS-styled React components with dark mode support and responsive design.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC015</li>
+<li><strong>Test Name:</strong> Responsive UI adapts to mobile and desktop screen sizes</li>
+<li><strong>Test Code:</strong> <a href="./TC015_Responsive_UI_adaptation.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/938f8f17-f5e6-4eac-8a40-7f8960bfe5ea">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Medium</li>
+<li><strong>Analysis / Findings:</strong> Timeout indicates the responsive UI rendering check failed, likely because the UI does not adapt or code responsible for layout adjustments is not executed. Test and fix CSS media queries, flexible layouts, and JavaScript resize handlers.</li>
+</ul>
+<hr>
+<h4>Test 2</h4>
+<ul>
+<li><strong>Test ID:</strong> TC016</li>
+<li><strong>Test Name:</strong> Dark mode toggling and persistence</li>
+<li><strong>Test Code:</strong> <a href="./TC016_Dark_mode_toggling.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/edb660e3-ade3-426e-8773-20f81d804493">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Low</li>
+<li><strong>Analysis / Findings:</strong> Timeout suggests dark mode toggling or preference persistence is not functioning; UI state management or local storage reading/writing may be broken. Verify and fix dark mode toggle event handlers, implement persistence storage correctly.</li>
+</ul>
+<hr>
+<h3>Requirement: Environment Configuration</h3>
+<ul>
+<li><strong>Description:</strong> Multi-environment configuration system with Docker containerization and environment variable management.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC017</li>
+<li><strong>Test Name:</strong> Docker deployment environment variable management</li>
+<li><strong>Test Code:</strong> <a href="./TC017_Docker_environment_variables.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/6b92844a-8823-452b-8b8d-bde612d94326">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout indicates environment variables are not correctly loaded or applied in Docker deployments, causing configuration or initialization failures on frontend and backend. Review Dockerfile and container environment settings.</li>
+</ul>
+<hr>
+<h3>Requirement: CORS and Security Configuration</h3>
+<ul>
+<li><strong>Description:</strong> Cross-origin resource sharing configuration and security middleware for frontend-backend communication.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC018</li>
+<li><strong>Test Name:</strong> Backend CORS and security headers configuration</li>
+<li><strong>Test Code:</strong> <a href="./TC018_Backend_CORS_security_headers.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/c7dbb413-ab8a-4f1f-8c52-20e9a1828ef1">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> High</li>
+<li><strong>Analysis / Findings:</strong> Timeout indicates that backend API is not correctly sending CORS headers or security middleware is either misconfigured or failing to apply. Inspect and fix backend middleware configurations to properly set CORS headers and security policies.</li>
+</ul>
+<hr>
+<h3>Requirement: Error Handling and Validation</h3>
+<ul>
+<li><strong>Description:</strong> Comprehensive error handling, input validation, and user feedback systems across frontend and backend.</li>
+</ul>
+<h4>Test 1</h4>
+<ul>
+<li><strong>Test ID:</strong> TC019</li>
+<li><strong>Test Name:</strong> Graceful handling of AI API failures</li>
+<li><strong>Test Code:</strong> <a href="./TC019_AI_API_error_handling.py">code_file</a></li>
+<li><strong>Test Error:</strong> Test execution timed out after 15 minutes</li>
+<li><strong>Test Visualization and Result:</strong> <a href="https://www.testsprite.com/dashboard/mcp/tests/1d2f0cd8-8c08-4dc5-851f-4a6b76f8af45/d32a9696-b71e-4d3e-8203-34d47fdc0467">View Test Results</a></li>
+<li><strong>Status:</strong> ❌ Failed</li>
+<li><strong>Severity:</strong> Medium</li>
+<li><strong>Analysis / Findings:</strong> Timeout suggests the frontend and backend do not appropriately handle AI API failures or network timeouts, resulting in blocked UI or unhandled errors. Implement robust error handling and user notifications for AI API failures.</li>
+</ul>
+<hr>
+<h2>3️⃣ Coverage &amp; Matching Metrics</h2>
+<ul>
+<li><strong>0% of product requirements tested successfully</strong></li>
+<li><strong>0% of tests passed</strong></li>
+<li><strong>Key gaps / risks:</strong></li>
+</ul>
+<blockquote>
+<p>All 20 test cases failed due to timeout issues, indicating fundamental problems with the application's responsiveness and functionality. The primary concern is that the frontend application may not be properly loading or responding to user interactions within the expected timeframe. This suggests potential issues with:</p>
+<ul>
+<li>Frontend build configuration or dependencies</li>
+<li>API connectivity between frontend and backend</li>
+<li>Authentication flow implementation</li>
+<li>Component rendering and state management</li>
+<li>Performance optimization</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Total Tests</th>
+<th>✅ Passed</th>
+<th>⚠️ Partial</th>
+<th>❌ Failed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User Authentication System</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+</tr>
+<tr>
+<td>AI Itinerary Generator</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Itinerary History Management</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Interactive Map Integration</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>PDF Export Functionality</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>REST API Backend</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Responsive UI Components</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Environment Configuration</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>CORS and Security Configuration</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Error Handling and Validation</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>20</strong></td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+<td><strong>20</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>4️⃣ Critical Issues Summary</h2>
+<h3>🚨 High Priority Issues</h3>
+<ol>
+<li><strong>Application Timeout Issues</strong>: All tests failed due to 15-minute timeouts, indicating the application is not responding properly</li>
+<li><strong>Authentication System Failure</strong>: Complete failure of login, signup, and OAuth flows</li>
+<li><strong>AI Integration Problems</strong>: Itinerary generation not functioning</li>
+<li><strong>API Communication Issues</strong>: Backend API validation and CORS configuration failures</li>
+<li><strong>Route Protection Failure</strong>: Protected routes not properly secured</li>
+</ol>
+<h3>📋 Immediate Action Items</h3>
+<ol>
+<li><strong>Debug Application Loading</strong>: Investigate why the application is not responding within timeout periods</li>
+<li><strong>Fix Authentication Flow</strong>: Resolve Firebase authentication integration issues</li>
+<li><strong>Optimize Performance</strong>: Address frontend rendering and API response time issues</li>
+<li><strong>Validate Environment Setup</strong>: Ensure all environment variables and configurations are properly loaded</li>
+<li><strong>Test API Connectivity</strong>: Verify frontend-backend communication is working correctly</li>
+</ol>
+<h3>🔧 Recommended Next Steps</h3>
+<ol>
+<li><strong>Manual Testing</strong>: Perform manual testing to identify specific UI/UX issues</li>
+<li><strong>Performance Profiling</strong>: Use browser dev tools to identify performance bottlenecks</li>
+<li><strong>Error Logging</strong>: Implement comprehensive error logging to track issues</li>
+<li><strong>Incremental Testing</strong>: Fix issues one component at a time and retest</li>
+<li><strong>Environment Validation</strong>: Verify all required services (Firebase, GROQ API, Google Maps) are properly configured</li>
+</ol>
+<hr>
+<p><em>Report generated by TestSprite AI Testing Platform</em></p>
+
+    </body>
+    </html>
+  

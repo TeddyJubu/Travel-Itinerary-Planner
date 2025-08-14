@@ -2,15 +2,17 @@
   "status": "commited",
   "type": "frontend",
   "scope": "codebase",
-  "localEndpoint": "http://localhost:3001",
+  "localEndpoint": "http://localhost:3000",
+  "loginUser": "teddy@tiblings.com",
+  "loginPassword": "B3%eKGq!Ao8E9$%N",
   "executionArgs": {
     "projectName": "Travel-Itinerary-Planner",
     "projectPath": "/Users/teddyburtonburger/Code main/trapal/Travel-Itinerary-Planner",
     "testIds": [],
-    "additionalInstruction": "Focus on testing the React Router future flags implementation, authentication flow without Firebase service account, and itinerary generation functionality. Verify that React Router warnings are resolved and that the 401 authentication errors are fixed.",
+    "additionalInstruction": "Test the Google Maps integration, authentication system, itinerary generation, and PDF export functionality. Focus on the recently updated Map components and ensure all features work correctly.",
     "envs": {
       "API_KEY": "sk-user-787ERM5mB-eJtE1W2pnQpbzSmWVBnuV3icazC029VBMOmpi0yICzb2sW1mRaCmlyNauO2m8ZRqpOg_oeYtwToduDfIOn99Gp3Sg1oyOvRmR6XV8SmNrWc-5YS6_3pAxXq3g"
     }
   },
-  "proxy": "http://01b61631-dba2-4d51-a281-faee0ce16feb:7fLnpspW2O43IFU6nK4ITzSB64xkdVbX@tun.testsprite.com:8080"
+  "proxy": "http://9492c181-01e7-49d3-85e3-ef36abc026a5:JS9HvssHq4pafkb2FI09aqJXKOq8baf1@tun.testsprite.com:8080"
 }

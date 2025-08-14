@@ -1,466 +1,473 @@
 [
   {
     "id": "TC001",
-    "title": "User Signup with Email and Password",
-    "description": "Verify that a new user can sign up successfully using email and password via Firebase authentication.",
+    "title": "User signup with valid email and password",
+    "description": "Verify that a new user can sign up successfully using a valid email address and a secure password.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to the signup page."
+        "description": "Navigate to the signup page"
       },
       {
         "type": "action",
-        "description": "Enter a valid email address, password, and confirm the password."
+        "description": "Enter a valid email address and a strong password"
       },
       {
         "type": "action",
-        "description": "Submit the signup form."
+        "description": "Submit the signup form"
       },
       {
         "type": "assertion",
-        "description": "Confirm the user account is created and user is redirected to the main itinerary generation page with authenticated state."
+        "description": "Check that the signup is successful and user is redirected to the authenticated area"
       }
     ]
   },
   {
     "id": "TC002",
-    "title": "User Signup Validation - Invalid Email Format",
-    "description": "Verify that trying to sign up with an invalid email format is rejected with an appropriate error message.",
+    "title": "User signup with invalid email format",
+    "description": "Ensure the system rejects signup attempts with invalid email formats and displays an appropriate error message.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to the signup page."
+        "description": "Navigate to the signup page"
       },
       {
         "type": "action",
-        "description": "Enter an invalid email string and a valid password."
+        "description": "Enter an invalid email address (e.g., 'user@domain') and a valid password"
       },
       {
         "type": "action",
-        "description": "Submit the signup form."
+        "description": "Submit the signup form"
       },
       {
         "type": "assertion",
-        "description": "Verify error message indicating invalid email format is shown and signup is not processed."
+        "description": "Verify that the signup is rejected with an email format validation error displayed"
       }
     ]
   },
   {
     "id": "TC003",
-    "title": "User Login with Email and Password",
-    "description": "Check that an existing user can log in using valid email and password via Firebase authentication.",
+    "title": "User login with correct email/password credentials",
+    "description": "Verify that existing users can log in successfully using their registered email and password.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to the login page."
+        "description": "Navigate to the login page"
       },
       {
         "type": "action",
-        "description": "Input valid registered email and correct password."
+        "description": "Enter valid registered email and corresponding password"
       },
       {
         "type": "action",
-        "description": "Click the login button."
+        "description": "Submit the login form"
       },
       {
         "type": "assertion",
-        "description": "Confirm the user is authenticated and redirected to the itinerary generation interface."
+        "description": "Verify login succeeds and the user is directed to the home or dashboard page"
       }
     ]
   },
   {
     "id": "TC004",
-    "title": "User Login Failure with Incorrect Credentials",
-    "description": "Verify that login fails with invalid email or password combinations and an appropriate error message is shown.",
+    "title": "User login with incorrect password",
+    "description": "Check that login fails when a correct email is paired with an incorrect password, providing suitable feedback.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to the login page."
+        "description": "Navigate to the login page"
       },
       {
         "type": "action",
-        "description": "Input an unregistered email or wrong password."
+        "description": "Enter valid registered email but incorrect password"
       },
       {
         "type": "action",
-        "description": "Click the login button."
+        "description": "Submit the login form"
       },
       {
         "type": "assertion",
-        "description": "Check that login attempt is rejected with an informative error message."
+        "description": "Verify login is rejected and an error notification about authentication failure is shown"
       }
     ]
   },
   {
     "id": "TC005",
-    "title": "User Login with Google OAuth",
-    "description": "Verify that a user can log in using Google OAuth authentication via Firebase.",
+    "title": "User login via Google OAuth",
+    "description": "Verify successful authentication when using Google OAuth login flow, and access to protected routes afterwards.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to the login page."
+        "description": "Navigate to the login page"
       },
       {
         "type": "action",
-        "description": "Click the Google OAuth login button."
+        "description": "Click the 'Sign in with Google' button"
       },
       {
         "type": "action",
-        "description": "Complete Google account selection and authentication."
+        "description": "Select a valid Google account and grant required permissions"
       },
       {
         "type": "assertion",
-        "description": "Confirm that the user is successfully authenticated and redirected to the itinerary generation interface."
+        "description": "Verify login is successful and user is redirected to authenticated sections with protected routes accessible"
       }
     ]
   },
   {
     "id": "TC006",
-    "title": "Access Protection for Authenticated Routes",
-    "description": "Ensure that pages requiring authentication cannot be accessed by unauthenticated users and redirect to login page instead.",
+    "title": "Access protected route without authentication",
+    "description": "Ensure that users who are not authenticated cannot access protected routes and are redirected to login.",
     "category": "security",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Attempt to access protected routes such as itinerary generation or itinerary history without logging in."
+        "description": "Attempt to navigate directly to a protected route URL without logging in"
       },
       {
         "type": "assertion",
-        "description": "Verify that the user is redirected to the login page and sensitive data is not exposed."
+        "description": "Confirm redirect to login page and no access to protected content"
       }
     ]
   },
   {
     "id": "TC007",
-    "title": "Generate AI Travel Itinerary - Valid Input",
-    "description": "Verify successful generation of a personalized day-by-day travel itinerary when valid destination and trip duration are submitted.",
+    "title": "Generate itinerary with valid destination and duration",
+    "description": "Test that the AI itinerary generator produces a detailed day-by-day itinerary when provided valid inputs.",
     "category": "functional",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in and navigate to the itinerary generation form."
+        "description": "Log in as an authenticated user"
       },
       {
         "type": "action",
-        "description": "Enter a valid travel destination and a positive integer trip duration."
+        "description": "Navigate to the itinerary generation form"
       },
       {
         "type": "action",
-        "description": "Submit the generation request."
+        "description": "Input a valid travel destination (e.g., 'Paris') and travel duration (e.g., 5 days)"
+      },
+      {
+        "type": "action",
+        "description": "Submit the itinerary request"
       },
       {
         "type": "assertion",
-        "description": "Verify the frontend receives a valid itinerary response within 5 seconds and displays detailed day-wise plan with destinations."
+        "description": "Verify that the AI response returns an itinerary with daily plans and activities consistent with input"
       },
       {
         "type": "assertion",
-        "description": "Check that the itinerary is saved in the backend database linked to the user email."
+        "description": "Ensure itinerary data is saved and linked to the authenticated user in the database"
       }
     ]
   },
   {
     "id": "TC008",
-    "title": "Generate AI Travel Itinerary - Invalid Input Handling",
-    "description": "Verify that submitting invalid input such as empty destination or zero/negative trip duration returns appropriate validation errors.",
+    "title": "Generate itinerary with invalid duration input",
+    "description": "Ensure the system validates input and handles error when a non-integer or negative duration is submitted.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Log in and open the itinerary generation page."
+        "description": "Log in as an authenticated user"
       },
       {
         "type": "action",
-        "description": "Submit the form with empty destination or invalid trip duration values."
+        "description": "Navigate to the itinerary generation form"
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid destination but invalid duration inputs (e.g., -3, 0, or 'five')"
+      },
+      {
+        "type": "action",
+        "description": "Submit the form"
       },
       {
         "type": "assertion",
-        "description": "Backend returns meaningful error messages and frontend displays these errors without sending the request to AI API."
+        "description": "Verify that validation error messages are displayed, preventing submission"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no API call to AI itinerary service is made when inputs are invalid"
       }
     ]
   },
   {
     "id": "TC009",
-    "title": "Retrieve User Itinerary History",
-    "description": "Check that the authenticated user can fetch and view the list of their previously generated itineraries correctly.",
+    "title": "View itinerary history for authenticated user",
+    "description": "Verify that users can view a list of their previously created itineraries accurately.",
     "category": "functional",
-    "priority": "High",
+    "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Log in with a user account that has saved itineraries."
+        "description": "Log in with an account that has saved itineraries"
       },
       {
         "type": "action",
-        "description": "Navigate to the itinerary history section."
+        "description": "Navigate to the itinerary history page"
       },
       {
         "type": "assertion",
-        "description": "Verify that the frontend fetches and displays the list of itineraries from backend filtered by user email."
+        "description": "Check that the list of past itineraries displays all saved items including titles, dates, and summaries"
       }
     ]
   },
   {
     "id": "TC010",
-    "title": "CRUD Operations on Itineraries",
-    "description": "Verify that the user can create, read, update, and delete their itinerary records using the backend REST API correctly.",
+    "title": "Edit existing itinerary and save changes",
+    "description": "Test the ability of the user to update details of a saved itinerary and persist those changes.",
     "category": "functional",
-    "priority": "High",
+    "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Create a new itinerary via API or frontend form submission."
-      },
-      {
-        "type": "assertion",
-        "description": "Confirm new itinerary is persisted in the database and visible to the user."
+        "description": "Log in and navigate to itinerary history"
       },
       {
         "type": "action",
-        "description": "Request to update an existing itinerary's details."
-      },
-      {
-        "type": "assertion",
-        "description": "Check that the updated data is reflected on subsequent fetches."
+        "description": "Select an existing itinerary"
       },
       {
         "type": "action",
-        "description": "Issue a delete request for a specific itinerary."
+        "description": "Modify the itinerary details such as days or activities"
+      },
+      {
+        "type": "action",
+        "description": "Save the changes"
       },
       {
         "type": "assertion",
-        "description": "Ensure the itinerary is removed from the backend and no longer shown to the user."
+        "description": "Verify that the updated itinerary is saved and changes are reflected when viewing it again"
       }
     ]
   },
   {
     "id": "TC011",
-    "title": "PDF Export of Generated Itinerary",
-    "description": "Ensure that a user can successfully download the currently viewed itinerary as a correctly formatted PDF document.",
+    "title": "Delete an itinerary from history",
+    "description": "Ensure users can delete itineraries and that deleted records no longer appear in history or retrieval calls.",
     "category": "functional",
-    "priority": "High",
+    "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Generate or open an existing itinerary in the UI."
+        "description": "Log in and go to itinerary history"
       },
       {
         "type": "action",
-        "description": "Click the export button to download the itinerary PDF."
+        "description": "Select an itinerary and initiate the delete action"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the deletion"
       },
       {
         "type": "assertion",
-        "description": "Verify the PDF file is downloaded, opens correctly with all content visible, and formatting matches the displayed itinerary."
+        "description": "Check that the itinerary is removed from the history list and backend data store"
       }
     ]
   },
   {
     "id": "TC012",
-    "title": "PDF Export Performance and UI Responsiveness",
-    "description": "Validate that the PDF generation process completes without freezing the UI and within acceptable time limits.",
-    "category": "performance",
-    "priority": "Medium",
+    "title": "Display itinerary locations on interactive map",
+    "description": "Verify that the Google Maps component correctly displays geocoded locations extracted from itinerary details.",
+    "category": "functional",
+    "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Export itineraries of varying lengths and complexity to PDF."
+        "description": "Open an existing itinerary with multiple destinations"
       },
       {
         "type": "assertion",
-        "description": "Confirm UI remains responsive during export and PDF files are generated within a few seconds."
+        "description": "Check that map markers appear at correct geolocations corresponding to itinerary places"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify interactive features such as zoom and pan work properly with loaded map"
       }
     ]
   },
   {
     "id": "TC013",
-    "title": "Interactive Map Displays Destinations and Routes",
-    "description": "Verify the interactive Leaflet map correctly marks all travel destinations and visually connects routes according to the generated itinerary data.",
+    "title": "Export itinerary as PDF",
+    "description": "Test that an itinerary can be accurately exported and saved as a PDF document, including formatting and content.",
     "category": "functional",
-    "priority": "Medium",
+    "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Generate an itinerary with multiple destinations."
+        "description": "Load an itinerary details view"
       },
       {
         "type": "action",
-        "description": "Navigate to the map view of the itinerary."
+        "description": "Click the export as PDF button"
       },
       {
         "type": "assertion",
-        "description": "Ensure the Leaflet map shows correct markers for each destination and routes connecting them in order."
+        "description": "Verify a PDF file is generated and downloadable"
+      },
+      {
+        "type": "assertion",
+        "description": "Open the PDF and confirm day-by-day itinerary details and formatting match the displayed content"
       }
     ]
   },
   {
     "id": "TC014",
-    "title": "Map Interaction and Responsiveness",
-    "description": "Test that the interactive map supports zoom, pan, and tooltip display functionalities without errors or lag.",
-    "category": "ui",
-    "priority": "Medium",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Use map controls to zoom in and out."
-      },
-      {
-        "type": "action",
-        "description": "Pan the map to various directions."
-      },
-      {
-        "type": "action",
-        "description": "Hover over or click markers to view details."
-      },
-      {
-        "type": "assertion",
-        "description": "Confirm map interactions work smoothly and tooltips/details appear correctly."
-      }
-    ]
-  },
-  {
-    "id": "TC015",
-    "title": "Dark Mode Toggle and UI Responsiveness",
-    "description": "Verify that the UI supports switching between normal and dark theme modes without layout or visibility issues across pages.",
-    "category": "ui",
-    "priority": "Medium",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Switch the application theme between light and dark modes."
-      },
-      {
-        "type": "assertion",
-        "description": "Ensure all textual and graphical UI elements remain visible, readable, and properly styled."
-      }
-    ]
-  },
-  {
-    "id": "TC016",
-    "title": "API Input Validation and Error Messaging",
-    "description": "Ensure all backend API endpoints validate inputs properly and return meaningful error messages for invalid or malicious data.",
+    "title": "API rejects invalid itinerary creation data",
+    "description": "Confirm backend API validates and rejects malformed or incomplete itinerary creation requests with appropriate errors.",
     "category": "error handling",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Send API requests with missing or invalid required fields for itinerary generation and CRUD operations."
+        "description": "Send itinerary creation API request with missing destination or invalid duration"
       },
       {
         "type": "assertion",
-        "description": "Verify API returns HTTP 4xx errors with descriptive error messages explaining validation failures."
+        "description": "Receive HTTP 400 Bad Request with descriptive validation error messages"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Responsive UI adapts to mobile and desktop screen sizes",
+    "description": "Validate that the interface renders correctly and remains usable across various device screen dimensions including mobile and desktop.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access the app on desktop viewport"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify layout is full and components are displayed with correct spacing"
+      },
+      {
+        "type": "action",
+        "description": "Resize or switch to mobile viewport"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm responsive adjustments: menus collapse appropriately, text and buttons remain accessible"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Dark mode toggling and persistence",
+    "description": "Ensure the UI supports dark mode switching and remembers user preference across sessions.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Toggle dark mode on from light mode"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify UI colors and styles update accordingly reflecting dark mode"
+      },
+      {
+        "type": "action",
+        "description": "Reload or restart the application"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm dark mode preference is persisted and UI remains in dark mode"
       }
     ]
   },
   {
     "id": "TC017",
-    "title": "Unauthorized Access to Itinerary Data",
-    "description": "Verify that users cannot access or manipulate other users' itinerary data via the REST API or frontend.",
-    "category": "security",
-    "priority": "High",
+    "title": "Docker deployment environment variable management",
+    "description": "Verify that environment variables for frontend and backend are correctly loaded and applied in Docker container deployments.",
+    "category": "functional",
+    "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Attempt to query, update, or delete itineraries associated with other user accounts."
+        "description": "Deploy application services using Docker Compose with environment config files"
       },
       {
         "type": "assertion",
-        "description": "Confirm access is denied and API returns authorization error responses."
+        "description": "Check that services start without errors and environment specific variables are correctly recognized"
       }
     ]
   },
   {
     "id": "TC018",
-    "title": "Session Logout and Route Protection",
-    "description": "Validate that logging out ends the user session and protected routes are inaccessible until re-authentication.",
-    "category": "functional",
-    "priority": "High",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Log in and navigate to protected pages."
-      },
-      {
-        "type": "action",
-        "description": "Perform logout action."
-      },
-      {
-        "type": "action",
-        "description": "Attempt to navigate back to previously accessible protected pages."
-      },
-      {
-        "type": "assertion",
-        "description": "Ensure redirection to login page and that user data is cleared from frontend state."
-      }
-    ]
-  },
-  {
-    "id": "TC019",
-    "title": "Docker Container Build and Deployment",
-    "description": "Test that frontend, backend, and database Docker containers build successfully and communicate correctly in both development and production modes.",
-    "category": "functional",
-    "priority": "Medium",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Run docker-compose up to build and start all containers."
-      },
-      {
-        "type": "assertion",
-        "description": "Verify all containers start without errors and the application functions end-to-end."
-      },
-      {
-        "type": "action",
-        "description": "Test data flow between frontend, backend, and database within containers."
-      },
-      {
-        "type": "assertion",
-        "description": "Confirm proper inter-container communication and persistent data storage."
-      }
-    ]
-  },
-  {
-    "id": "TC020",
-    "title": "Environment Variable and Secret Management",
-    "description": "Verify that environment variables such as API keys, Firebase config, and database credentials are securely loaded and not exposed in client-side code or logs.",
+    "title": "Backend CORS and security headers configuration",
+    "description": "Ensure that backend API responses include appropriate CORS headers and security middleware effects are applied.",
     "category": "security",
     "priority": "High",
     "steps": [
       {
         "type": "action",
-        "description": "Inspect runtime environment variables inside containers and frontend build artifacts."
+        "description": "Send cross-origin API request from frontend domain"
       },
       {
         "type": "assertion",
-        "description": "Ensure sensitive keys and secrets are only accessible to backend and are never leaked to frontend code or public repos."
+        "description": "Verify CORS headers allow requests only from authorized frontend domains"
+      },
+      {
+        "type": "assertion",
+        "description": "Check response headers for security policies such as Content-Security-Policy, X-Frame-Options"
       }
     ]
   },
   {
-    "id": "TC021",
-    "title": "AI Response Time Within Performance Requirements",
-    "description": "Ensure the AI itinerary generation response time from request to backend until data received in frontend is within 2 to 5 seconds under normal network conditions.",
+    "id": "TC019",
+    "title": "Graceful handling of AI API failures",
+    "description": "Simulate failures or timeouts from the GROQ AI API and verify frontend and backend properly handle and notify the user.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Trigger itinerary generation with AI API returning error or timeout"
+      },
+      {
+        "type": "assertion",
+        "description": "Backend returns a clean error response with meaningful message"
+      },
+      {
+        "type": "assertion",
+        "description": "Frontend displays user-friendly error notification and does not crash"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Performance: AI itinerary generation response time",
+    "description": "Measure the time taken for AI itinerary generation from request submission to result rendering, ensuring it meets acceptable performance benchmarks.",
     "category": "performance",
     "priority": "Medium",
     "steps": [
       {
         "type": "action",
-        "description": "Submit multiple itinerary generation requests with normal load."
+        "description": "Submit itinerary generation request with typical input values"
       },
       {
         "type": "assertion",
-        "description": "Verify that response times are consistently between 2 and 5 seconds, and no timeouts or failures occur."
+        "description": "Record elapsed time and verify it is within the application's defined acceptable limits (e.g., under 5 seconds)"
       }
     ]
   }
