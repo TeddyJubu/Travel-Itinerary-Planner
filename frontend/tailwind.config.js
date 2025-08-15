@@ -7,14 +7,14 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#8B5CF6', // Violet
-          dark: '#6D28D9',
-          light: '#A78BFA',
+          DEFAULT: '#A78BFA', // Light Violet
+          dark: '#8B5CF6',
+          light: '#C4B5FD',
         },
-        dark: {
-          DEFAULT: '#111827',
-          lighter: '#1F2937',
-          light: '#374151',
+        light: {
+          DEFAULT: '#F9FAFB', // Gray 50
+          lighter: '#F3F4F6', // Gray 100
+          light: '#E5E7EB',   // Gray 200
         },
         cyan: {
           400: '#22D3EE',
